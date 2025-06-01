@@ -1,9 +1,10 @@
 //
 // Created by Konrad Mrozowski on 01/06/2025.
 //
-#include <iostream>
+
 #ifndef KLASY_H
 #define KLASY_H
+#include <iostream>
 
 using namespace std;
 class figura {
