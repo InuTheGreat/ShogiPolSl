@@ -17,6 +17,7 @@ class figura {
 class plansza{
     private:
         int rozmiarPlanszy[8][8];
+        bool tura;
 
 };
 
