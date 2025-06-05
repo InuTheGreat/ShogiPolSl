@@ -20,6 +20,7 @@ void plansza::startPlanszy() {
         cerr<<"Błąd otwierania pliku!"<<endl;
         exit(1);
     }
+    planszaFile.close();
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++) {
             cout << testArray[i][j] << " ";
