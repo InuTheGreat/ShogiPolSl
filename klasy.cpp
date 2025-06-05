@@ -4,6 +4,11 @@
 
 #include "klasy.h"
 
+figura::figura(string nazwa, int kodFigury):nazwa(nazwa),  kodFigury(kodFigury) {
+
+}
+figura::~figura() = default;
+
 
 void plansza::startPlanszy() {
     int testArray[8][8];
@@ -29,3 +34,10 @@ void plansza::startPlanszy() {
     }
 }
 
+/* Kody figur
+ *  0 - puste pole
+ *  1 - pionek
+ *
+ *
+ *
+ */

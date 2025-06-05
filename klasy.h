@@ -12,7 +12,10 @@ using namespace std;
 class figura {
     private:
         string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
-        int kodFigury; //Kod liczbowy, który identyfikuje figurę na planszy.
+        int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
+    public:
+        figura(string nazwa, int kodFigury);
+        ~figura();
 
 };
 
