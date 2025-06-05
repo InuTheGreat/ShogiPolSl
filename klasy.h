@@ -5,6 +5,8 @@
 #ifndef KLASY_H
 #define KLASY_H
 #include <iostream>
+#include <string>
+#include <fstream>
 
 using namespace std;
 class figura {
@@ -19,6 +21,8 @@ class plansza{
     private:
         int rozmiarPlanszy[8][8];
         bool tura;
+    public:
+        void startPlanszy();
 
 };
 

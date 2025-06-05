@@ -3,3 +3,28 @@
 //
 
 #include "klasy.h"
+
+
+void plansza::startPlanszy() {
+    int testArray[8][8];
+    ifstream planszaFile;
+    planszaFile.open("../plansza.txt");
+    if(planszaFile.is_open()) {
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                planszaFile >> testArray[i][j];
+            }
+        }
+    }
+    else {
+        cerr<<"Błąd otwierania pliku!"<<endl;
+        exit(1);
+    }
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 8; j++) {
+            cout << testArray[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
