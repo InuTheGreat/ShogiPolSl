@@ -4,14 +4,37 @@
 
 #include "klasy.h"
 
-figura::figura(string nazwa, int kodFigury):nazwa(nazwa),  kodFigury(kodFigury) {
-
-}
+figura::figura(string nazwa, int kodFigury):nazwa(nazwa),  kodFigury(kodFigury){}
 figura::~figura() = default;
 
+plansza::plansza(bool tura) : tura(true)
+{
 
-void plansza::startPlanszy() {
-    int testArray[8][8];
+    ifstream planszaFile;
+    planszaFile.open("../plansza.txt");
+    if(planszaFile.is_open())
+        {
+        for(int i = 0; i < 8; i++)
+            {
+            for(int j = 0; j < 8; j++)
+            {
+                planszaFile >> rozmiarPlanszy[i][j];
+            }
+        }
+    }
+    else
+    {
+        cerr<<"Błąd otwierania pliku!"<<endl;
+        exit(1);
+    }
+    planszaFile.close();
+}
+
+plansza::~plansza() = default;
+
+
+
+void plansza::startPlanszy(int testArray[8][8]) {
     ifstream planszaFile;
     planszaFile.open("../plansza.txt");
     if(planszaFile.is_open()) {
