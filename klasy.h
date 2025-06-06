@@ -25,7 +25,9 @@ class plansza{
         int rozmiarPlanszy[8][8];
         bool tura;
     public:
-        void startPlanszy();
+        plansza(bool tura);
+        ~plansza();
+        void startPlanszy(int testArray[8][8]);
 
 };
 
