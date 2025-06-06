@@ -4,8 +4,13 @@
 
 #include "klasy.h"
 
-figura::figura(string nazwa, int kodFigury):nazwa(nazwa),  kodFigury(kodFigury){}
+figura::figura(string nazwa, int kodFigury, int x, int y):nazwa(nazwa),  kodFigury(kodFigury), pozycja(x,y){}
 figura::~figura() = default;
+
+
+
+
+
 
 plansza::plansza()
 {
@@ -29,9 +34,7 @@ plansza::plansza()
     }
     planszaFile.close();
 }
-
 plansza::~plansza() = default;
-
 void plansza::wyswietlPlansze() {
     for(int i = 0; i <= 8; i++) {
         for(int j = 0; j <= 8; j++) {
@@ -41,29 +44,6 @@ void plansza::wyswietlPlansze() {
     }
 }
 
-
-void plansza::startPlanszy(int testArray[9][9]) {
-    ifstream planszaFile;
-    planszaFile.open("../plansza.txt");
-    if(planszaFile.is_open()) {
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                planszaFile >> testArray[i][j];
-            }
-        }
-    }
-    else {
-        cerr<<"Błąd otwierania pliku!"<<endl;
-        exit(1);
-    }
-    planszaFile.close();
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            cout << testArray[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
 
 /* Kody figur
  *  0 - puste pole
