@@ -22,12 +22,13 @@ class figura {
 
 class plansza{
     private:
-        int rozmiarPlanszy[8][8];
+        int rozmiarPlanszy[9][9];
         bool tura;
     public:
-        plansza(bool tura);
+        plansza();
         ~plansza();
-        void startPlanszy(int testArray[8][8]);
+        void startPlanszy(int testArray[9][9]);
+        void wyswietlPlansze();
 
 };
 
