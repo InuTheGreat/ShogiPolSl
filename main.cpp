@@ -6,6 +6,7 @@ int main() {
 
     figura pionek1("Pionek1",1);
     p1.wyswietlPlansze();
+
     return 0;
 
 }
