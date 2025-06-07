@@ -4,8 +4,31 @@
 
 #include "klasy.h"
 
-figura::figura(string nazwa, int kodFigury):nazwa(nazwa),  kodFigury(kodFigury){}
+
+figura::figura(string nazwa, int kodFigury, int x, int y):nazwa(nazwa),  kodFigury(kodFigury), pozycja(x,y){}
 figura::~figura() = default;
+void figura::ruchFigury(plansza& p) {
+    int a,b;
+    cout <<"Podaj współrzędne na które chcesz przenieść figurę: ";
+    cin >> a >> b;
+    cout<<endl;
+    edytujPlansze(p,a,b);
+}
+void figura::edytujPlansze(plansza& p,int a, int b)
+{
+    int c = pozycja[0];
+    int d = pozycja[1];
+    p.tablicaPlanszy[c][d]= 0;
+    pozycja[0]=a;
+    pozycja[1]=b;
+    p.tablicaPlanszy[a][b]=kodFigury;
+}
+
+
+
+
+
+
 
 plansza::plansza()
 {
@@ -18,7 +41,7 @@ plansza::plansza()
             {
             for(int j = 0; j <= 8; j++)
             {
-                planszaFile >> rozmiarPlanszy[i][j];
+                planszaFile >> tablicaPlanszy[i][j];
             }
         }
     }
@@ -29,41 +52,16 @@ plansza::plansza()
     }
     planszaFile.close();
 }
-
 plansza::~plansza() = default;
-
 void plansza::wyswietlPlansze() {
     for(int i = 0; i <= 8; i++) {
         for(int j = 0; j <= 8; j++) {
-            cout << rozmiarPlanszy[i][j] << " ";
+            cout << tablicaPlanszy[i][j] << " ";
         }
         cout << endl;
     }
 }
 
-
-void plansza::startPlanszy(int testArray[9][9]) {
-    ifstream planszaFile;
-    planszaFile.open("../plansza.txt");
-    if(planszaFile.is_open()) {
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                planszaFile >> testArray[i][j];
-            }
-        }
-    }
-    else {
-        cerr<<"Błąd otwierania pliku!"<<endl;
-        exit(1);
-    }
-    planszaFile.close();
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            cout << testArray[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
 
 /* Kody figur
  *  0 - puste pole

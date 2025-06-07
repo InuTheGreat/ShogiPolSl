@@ -9,28 +9,44 @@
 #include <fstream>
 
 using namespace std;
+class plansza;
+
 class figura {
-    private:
-        string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
-        int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
-    public:
-        figura(string nazwa, int kodFigury);
-        ~figura();
+private:
+    string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
+    int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
+    int pozycja[2];
+public:
+    figura(string nazwa, int kodFigury, int x, int y);
+    ~figura();
+
+    void ruchFigury(plansza &p);
+    void edytujPlansze(plansza& p,int a, int b);
 
 };
-
 
 class plansza{
-    private:
-        int rozmiarPlanszy[9][9];
-        bool tura;
-    public:
-        plansza();
-        ~plansza();
-        void startPlanszy(int testArray[9][9]);
-        void wyswietlPlansze();
+private:
+    int tablicaPlanszy[9][9]{};
+    bool tura;
+    friend void figura::edytujPlansze(plansza& p,int a, int b);
+public:
+    plansza();
+    ~plansza();
+    void wyswietlPlansze();
+
 
 };
+
+
+
+
+
+
+
+
+
+
 
 class gracz {
 
