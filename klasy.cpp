@@ -7,14 +7,23 @@
 
 figura::figura(string nazwa, int kodFigury, int x, int y):nazwa(nazwa),  kodFigury(kodFigury), pozycja(x,y){}
 figura::~figura() = default;
-void figura::ruchFigury() {
+void figura::ruchFigury(plansza& p) {
     int a,b;
     cout <<"Podaj współrzędne na które chcesz przenieść figurę: ";
     cin >> a >> b;
     cout<<endl;
-    pozycja[0]= a;
-    pozycja[1]= b;
+    edytujPlansze(p,a,b);
 }
+void figura::edytujPlansze(plansza& p,int a, int b)
+{
+    int c = pozycja[0];
+    int d = pozycja[1];
+    p.tablicaPlanszy[c][d]= 0;
+    pozycja[0]=a;
+    pozycja[1]=b;
+    p.tablicaPlanszy[a][b]=kodFigury;
+}
+
 
 
 

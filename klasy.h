@@ -9,6 +9,8 @@
 #include <fstream>
 
 using namespace std;
+class plansza;
+
 class figura {
 private:
     string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
@@ -18,8 +20,8 @@ public:
     figura(string nazwa, int kodFigury, int x, int y);
     ~figura();
 
-    void ruchFigury();
-    void edytujPlansze(class plansza& p);
+    void ruchFigury(plansza &p);
+    void edytujPlansze(plansza& p,int a, int b);
 
 };
 
@@ -27,7 +29,7 @@ class plansza{
 private:
     int tablicaPlanszy[9][9]{};
     bool tura;
-    friend void figura::edytujPlansze(plansza& p);
+    friend void figura::edytujPlansze(plansza& p,int a, int b);
 public:
     plansza();
     ~plansza();
