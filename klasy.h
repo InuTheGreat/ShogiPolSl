@@ -10,28 +10,41 @@
 
 using namespace std;
 class figura {
-    private:
-        string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
-        int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
-        int pozycja[2];
-    public:
-        figura(string nazwa, int kodFigury, int x, int y);
-        ~figura();
+private:
+    string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
+    int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
+    int pozycja[2];
+public:
+    figura(string nazwa, int kodFigury, int x, int y);
+    ~figura();
 
+    void ruchFigury();
+    void edytujPlansze(class plansza& p);
 
 };
-
 
 class plansza{
-    private:
-        int rozmiarPlanszy[9][9]{};
-        bool tura;
-    public:
-        plansza();
-        ~plansza();
-        void wyswietlPlansze();
+private:
+    int tablicaPlanszy[9][9]{};
+    bool tura;
+    friend void figura::edytujPlansze(plansza& p);
+public:
+    plansza();
+    ~plansza();
+    void wyswietlPlansze();
+
 
 };
+
+
+
+
+
+
+
+
+
+
 
 class gracz {
 
