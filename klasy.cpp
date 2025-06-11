@@ -57,13 +57,26 @@ void plansza::wyswietlPlansze() const
     }
 }
 //_______________________________________________
+//FUNKCJE POZA KLASAMI
 
-
-bool isValidPosition(int x, int y) {
+bool isValidPosition(int x, int y)
+{
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
-
-
 }
+
+
+void wyborBierki()
+{
+    char input;
+    int fromX, fromY;
+    cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
+    cin >> input;
+    if(input == 'q') exit(0);
+    cin.putback(input);
+    cin >> fromX >> fromY;
+}
+
+//_________________________________________________
 //GRACZ_________________________
 gracz::gracz() {
     currentPlayer=1;

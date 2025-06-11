@@ -15,6 +15,7 @@ const int SIZE = 9;
 
 class plansza;
 
+//FIGURA____________________________________________
 class figura {
 private:
     string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
@@ -29,7 +30,10 @@ public:
 
 };
 
-class plansza{
+
+//PLANSZA______________________________________________
+class plansza
+{
 private:
     array<array<int, SIZE>, SIZE> tablicaPlanszy;
     bool tura;
@@ -38,10 +42,10 @@ public:
     plansza();
     ~plansza();
     void wyswietlPlansze()const;
-
-
 };
 
+
+//PLANSZA_________________________________________________
 class gracz
 {
     private:
@@ -54,5 +58,5 @@ class gracz
 };
 
 bool isValidPosition(int x, int y);
-
+void wyborBierki();
 #endif //KLASY_H
