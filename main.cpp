@@ -6,12 +6,6 @@
 #include "klasy.h"
 using namespace std;
 
-bool isUpper(const string& s) {
-    return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
-}
-bool isLower(const string& s) {
-    return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
-}
 
 int main() {
     plansza p;
@@ -27,12 +21,7 @@ int main() {
              << (gg.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
 
-        cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
-        cin >> input;
-        if (input == 'q') break;
-        cin.putback(input);
-        cin >> fromX >> fromY;
-        fromX--; fromY--;
+        if (pozycjaBierki(fromX,fromY)==false)break;
 
         if (!isValidPosition(fromX, fromY) || p.getPole(fromX, fromY) == ".") {
             cout << "Nieprawidłowa pozycja startowa!\n";
