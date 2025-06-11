@@ -69,9 +69,13 @@ gracz::gracz() {
     currentPlayer=1;
 
 }
+gracz::~gracz()=default;
+
 void gracz::setCurrent(int i) {
     currentPlayer=i;
 }
+
+
 int gracz::getCurrent() const {
     return currentPlayer;
 }
