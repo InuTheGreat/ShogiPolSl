@@ -16,6 +16,8 @@ int main() {
         cout << "\nTura gracza " << gg.getCurrent() << " ("
              << (gg.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
+        //wyborBierki();
+
 
         // Wybór bierki
         cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
@@ -24,15 +26,15 @@ int main() {
         cin.putback(input);
         cin >> fromX >> fromY;
 
-        // Konwersja na indeksy od 0 (jeśli chcemy indeksowanie od 1)
-        // fromX--; fromY--;
-
+        //Konwersja na indeksy od 0 (jeśli chcemy indeksowanie od 1)
+        fromX--; fromY--;
+/*
         // Walidacja pozycji startowej
-       /* if(!isValidPosition(fromX, fromY) || p.tablicaPlanszy[fromY][fromX] == 0) {
+        if(!isValidPosition(fromX, fromY) || p.tablicaPlanszy[fromY][fromX] == 0) {
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
-        }
-
+        }*/
+/*
         // Sprawdzenie właściciela bierki
         int piece = p.tablicaPlanszy[fromY][fromX];
         if((currentPlayer == 1 && piece < 0) ||
@@ -62,7 +64,7 @@ int main() {
         p.tablicaPlanszy[fromY][fromX] = 0;
 
         // Zmiana gracza
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;*/
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;  */
     }
     //plansza p;
     p.wyswietlPlansze();
