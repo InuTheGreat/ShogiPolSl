@@ -1,24 +1,17 @@
+
 #include "klasy.h"
 
 using namespace std;
 
-const int SIZE = 9;
 
-
-/*
-
-
-bool isValidPosition(int x, int y) {
-    return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
-}
-*/
 int main() {
-    /*int currentPlayer = 1; // 1 lub 2
+    plansza p;
+    int currentPlayer = 1; // 1 lub 2
     int fromX, fromY, toX, toY;
     char input;
 
     while(true) {
-        printBoard();
+        p.wyswietlPlansze();
         cout << "\nTura gracza " << currentPlayer << " ("
              << (currentPlayer == 1 ? "dolne" : "górne")
              << " bierki)\n";
@@ -30,27 +23,27 @@ int main() {
         cin.putback(input);
         cin >> fromX >> fromY;
 
-        // Konwersja na indeksy od 0
-        fromX--; fromY--;
+        // Konwersja na indeksy od 0 (jeśli chcemy indeksowanie od 1)
+        // fromX--; fromY--;
 
         // Walidacja pozycji startowej
-        if(!isValidPosition(fromX, fromY) || board[fromY][fromX] == 0) {
+       /* if(!isValidPosition(fromX, fromY) || p.tablicaPlanszy[fromY][fromX] == 0) {
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
         }
 
         // Sprawdzenie właściciela bierki
-        int piece = board[fromY][fromX];
+        int piece = p.tablicaPlanszy[fromY][fromX];
         if((currentPlayer == 1 && piece < 0) ||
            (currentPlayer == 2 && piece > 0)) {
             cout << "To nie twoja bierka!\n";
             continue;
-        }
+           }
 
         // Wybór celu
         cout << "Podaj docelową pozycję (x y): ";
         cin >> toX >> toY;
-        toX--; toY--;
+        // toX--; toY--;
 
         if(!isValidPosition(toX, toY)) {
             cout << "Nieprawidłowa pozycja docelowa!\n";
@@ -58,20 +51,19 @@ int main() {
         }
 
         // Sprawdzenie czy pole docelowe jest puste
-        if(board[toY][toX] != 0) {
+        if(p.tablicaPlanszy[toY][toX] != 0) {
             cout << "Pole docelowe nie jest puste! Wybierz inne pole.\n";
             continue;
         }
 
         // Wykonanie ruchu
-        board[toY][toX] = piece;
-        board[fromY][fromX] = 0;
+        p.tablicaPlanszy[toY][toX] = piece;
+        p.tablicaPlanszy[fromY][fromX] = 0;
 
         // Zmiana gracza
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;*/
     }
-*/
-    plansza p;
+    //plansza p;
     p.wyswietlPlansze();
     return 0;
 }
