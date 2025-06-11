@@ -4,7 +4,7 @@
 
 #include "klasy.h"
 
-
+// FIGURA______________________________________
 figura::figura(string nazwa, int kodFigury, int x, int y):nazwa(nazwa),  kodFigury(kodFigury), pozycja(x,y){}
 figura::~figura() = default;
 void figura::ruchFigury(plansza& p) {
@@ -23,13 +23,14 @@ void figura::edytujPlansze(plansza& p,int a, int b)
     pozycja[1]=b;
     p.tablicaPlanszy[a][b]=kodFigury;
 }
+//--------------------------------------
 
 
 
+// PLANSZA---------------------------------
 plansza::plansza()
 {
     tura = true;
-    const int SIZE = 9;
 
 
     tablicaPlanszy = {{
@@ -46,7 +47,8 @@ plansza::plansza()
 
 }
 plansza::~plansza() = default;
-void plansza::wyswietlPlansze() {
+void plansza::wyswietlPlansze() const
+{
     for(int i = 0; i <= 8; i++) {
         for(int j = 0; j <= 8; j++) {
             cout << setw(2)<<tablicaPlanszy[i][j] << " ";
@@ -54,8 +56,26 @@ void plansza::wyswietlPlansze() {
         cout << endl;
     }
 }
+//_______________________________________________
 
 
+bool isValidPosition(int x, int y) {
+    return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
+
+
+}
+//GRACZ_________________________
+gracz::gracz() {
+    currentPlayer=1;
+
+}
+void gracz::setCurrent(int i) {
+    currentPlayer=i;
+}
+int gracz::getCurrent() const {
+    return currentPlayer;
+}
+//___________________________________________
 /* Kody figur
  *  0 - puste pole
  *  1 - pionek

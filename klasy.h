@@ -10,6 +10,9 @@
 #include <iomanip>
 
 using namespace std;
+
+const int SIZE = 9;
+
 class plansza;
 
 class figura {
@@ -28,31 +31,28 @@ public:
 
 class plansza{
 private:
-    array<array<int, 9>, 9> tablicaPlanszy;
+    array<array<int, SIZE>, SIZE> tablicaPlanszy;
     bool tura;
     friend void figura::edytujPlansze(plansza& p,int a, int b);
 public:
     plansza();
     ~plansza();
-    void wyswietlPlansze();
+    void wyswietlPlansze()const;
 
 
 };
 
-
-
-
-
-
-
-
-
-
-
-class gracz {
-
+class gracz
+{
+    private:
+        int currentPlayer;
+    public:
+        gracz();
+        ~gracz();
+        int getCurrent()const;
+        void setCurrent(int i);
 };
 
-
+bool isValidPosition(int x, int y);
 
 #endif //KLASY_H
