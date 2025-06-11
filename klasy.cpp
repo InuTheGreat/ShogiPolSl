@@ -26,24 +26,20 @@ void figura::edytujPlansze(plansza& p,int a, int b)
 
 
 
-
-
-
-
 plansza::plansza()
 {
     tura = true;
     const int SIZE = 9;
 
-    // Zmodyfikowana plansza z wartościami ujemnymi dla gracza 2
+
     tablicaPlanszy = {{
-        {-7, -6, -5, -4, -1, -4, -5, -6, -7}, // Gracz 2 (górna część)
+        {-7, -6, -5, -4, -1, -4, -5, -6, -7}, // Gracz 2 (wartości ujemne)
         {0, -2, 0, 0, 0, 0, 0, -3, 0},
         {-8, -8, -8, -8, -8, -8, -8, -8, -8},
         {0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8},         // Gracz 1 (dolna część)
+        {8, 8, 8, 8, 8, 8, 8, 8, 8},         // Gracz 1 (wartości dodatnie)
         {0, 3, 0, 0, 0, 0, 0, 2, 0},
         {7, 6, 5, 4, 1, 4, 5, 6, 7}
     }};
@@ -53,7 +49,7 @@ plansza::~plansza() = default;
 void plansza::wyswietlPlansze() {
     for(int i = 0; i <= 8; i++) {
         for(int j = 0; j <= 8; j++) {
-            cout << tablicaPlanszy[i][j] << " ";
+            cout << setw(2)<<tablicaPlanszy[i][j] << " ";
         }
         cout << endl;
     }
