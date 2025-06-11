@@ -1,6 +1,6 @@
 //
 // Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
-// UPDATED 11/06/2025
+// UPDATED 12/06/2025
 //
 
 #include "klasy.h"
@@ -31,7 +31,7 @@ int main() {
             (gg.getCurrent() == 2 && !isLower(piece))) {
             cout << "To nie twoja bierka!\n";
             continue;
-            }
+        }
 
         cout << "Podaj docelową pozycję (x y): ";
         cin >> toX >> toY;
@@ -48,12 +48,33 @@ int main() {
                 (isLower(target) && gg.getCurrent() == 2)) {
                 cout << "Nie możesz zbić własnej bierki!\n";
                 continue;
-                }
+            }
         }
 
         if (!isMoveValid(p, fromX, fromY, toX, toY, gg.getCurrent())) {
             cout << "Nieprawidłowy ruch dla tej bierki!\n";
             continue;
+        }
+
+        // PROMOCJA
+        bool promotionPossible = false;
+        if (canPromote(piece)) {
+            if (isPromotionZone(fromY, gg.getCurrent()) || isPromotionZone(toY, gg.getCurrent())) {
+                promotionPossible = true;
+            }
+        }
+
+        if (promotionPossible && mustPromote(piece, toY, gg.getCurrent())) {
+            piece = promotePiece(piece);
+            cout << "Promocja obowiązkowa!\n";
+        } else if (promotionPossible) {
+            cout << "Czy chcesz promować tę bierkę? (t/n): ";
+            char odp;
+            cin >> odp;
+            if (odp == 't' || odp == 'T') {
+                piece = promotePiece(piece);
+                cout << "Bierka została promowana!\n";
+            }
         }
 
         // Przesunięcie bierki

@@ -1,6 +1,6 @@
 //
 // Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
-// UPDATED 11/06/2025
+// UPDATED 12/06/2025
 //
 
 #ifndef KLASY_H
@@ -53,7 +53,6 @@ public:
     void setCurrent(int i);
 };
 
-// WALIDACJA POZYCJI I RUCHÓW_____________________________
 bool isValidPosition(int x, int y);
 bool isUpper(const string& s);
 bool isLower(const string& s);
@@ -61,5 +60,11 @@ bool pozycjaBierki(int& x, int& y);
 
 // WALIDACJA RUCHU FIGUR SZOGI
 bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int currentPlayer);
+
+// PROMOCJA SZOGI
+bool isPromotionZone(int y, int player);
+bool canPromote(const std::string& piece);
+bool mustPromote(const std::string& piece, int toY, int player);
+std::string promotePiece(const std::string& piece);
 
 #endif //KLASY_H

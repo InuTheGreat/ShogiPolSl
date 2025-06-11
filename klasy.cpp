@@ -1,6 +1,6 @@
 //
 // Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
-// UPDATED 11/06/2025
+// UPDATED 12/06/2025
 //
 
 #include "klasy.h"
@@ -18,7 +18,6 @@ void figura::edytujPlansze(plansza& p, int a, int b) { /* ... */ }
 
 // PLANSZA_________________________________________
 plansza::plansza() {
-    // Startowy układ shogi (małe litery - górny gracz, duże - dolny)
     tablicaPlanszy[0] = {"l", "n", "s", "g", "k", "g", "s", "n", "l"};
     tablicaPlanszy[1] = {".", "r", ".", ".", ".", ".", ".", "b", "."};
     tablicaPlanszy[2] = {"p", "p", "p", "p", "p", "p", "p", "p", "p"};
@@ -91,13 +90,13 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
     int dx = toX - fromX;
     int dy = toY - fromY;
 
-    // Sprawdzenie, czy ruch należy do odpowiedniego gracza
     if ((currentPlayer == 1 && !isUpperPiece) || (currentPlayer == 2 && isUpperPiece)) return false;
+    if (piece[0] == '+') type = tolower(piece[1]); // promowana bierka
 
     switch(type) {
         case 'k': // Król
             return abs(dx) <= 1 && abs(dy) <= 1;
-        case 'g': // Złoty generał
+        case 'g': // Złoty generał i promowane: pion, lanca, koń, srebrny
             if(abs(dx) > 1 || abs(dy) > 1) return false;
             if(isUpperPiece && dy == 1 && dx != 0) return false;
             if(!isUpperPiece && dy == -1 && dx != 0) return false;
@@ -145,4 +144,36 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                 return dy == 2 && abs(dx) == 1;
         default: return false;
     }
+}
+
+// PROMOCJA SZOGI________________________________
+bool isPromotionZone(int y, int player) {
+    // Gracz 1: rzędy 0,1,2; Gracz 2: rzędy 6,7,8
+    if (player == 1) return y >= 0 && y <= 2;
+    else return y >= 6 && y <= 8;
+}
+
+bool canPromote(const std::string& piece) {
+    char c = tolower(piece[0]);
+    if (piece[0] == '+') return false; // już promowana
+    return c == 'p' || c == 'l' || c == 'n' || c == 's' || c == 'b' || c == 'r';
+}
+
+bool mustPromote(const std::string& piece, int toY, int player) {
+    char c = tolower(piece[0]);
+    if (piece[0] == '+') return false;
+    if (c == 'p' || c == 'l') {
+        if ((player == 1 && toY == 0) || (player == 2 && toY == 8)) return true;
+    }
+    if (c == 'n') {
+        if ((player == 1 && (toY == 0 || toY == 1)) ||
+            (player == 2 && (toY == 8 || toY == 7))) return true;
+    }
+    return false;
+}
+
+std::string promotePiece(const std::string& piece) {
+    if (piece[0] == '+') return piece; // już promowana
+    char c = piece[0];
+    return "+" + std::string(1, c);
 }
