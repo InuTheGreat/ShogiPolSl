@@ -1,102 +1,57 @@
-//
-// Created by Konrad Mrozowski on 01/06/2025.
-//
-
 #include "klasy.h"
 
 // FIGURA______________________________________
-figura::figura(string nazwa, int kodFigury, int x, int y):nazwa(nazwa),  kodFigury(kodFigury), pozycja(x,y){}
+figura::figura(string nazwa, int kodFigury, int x, int y)
+    : nazwa(nazwa), kodFigury(kodFigury) {
+    pozycja[0] = x;
+    pozycja[1] = y;
+}
 figura::~figura() = default;
-void figura::ruchFigury(plansza& p) {
-    int a,b;
-    cout <<"Podaj współrzędne na które chcesz przenieść figurę: ";
-    cin >> a >> b;
-    cout<<endl;
-    edytujPlansze(p,a,b);
-}
-void figura::edytujPlansze(plansza& p,int a, int b)
-{
-    int c = pozycja[0];
-    int d = pozycja[1];
-    p.tablicaPlanszy[c][d]= 0;
-    pozycja[0]=a;
-    pozycja[1]=b;
-    p.tablicaPlanszy[a][b]=kodFigury;
-}
-//--------------------------------------
+void figura::ruchFigury(plansza& p) { /* ... */ }
+void figura::edytujPlansze(plansza& p, int a, int b) { /* ... */ }
 
-
-
-// PLANSZA---------------------------------
-plansza::plansza()
-{
+// PLANSZA_________________________________________
+plansza::plansza() {
+    // Startowy układ shogi (małe litery - górny gracz, duże - dolny)
+    tablicaPlanszy[0] = {"l", "n", "s", "g", "k", "g", "s", "n", "l"};
+    tablicaPlanszy[1] = {".", "r", ".", ".", ".", ".", ".", "b", "."};
+    tablicaPlanszy[2] = {"p", "p", "p", "p", "p", "p", "p", "p", "p"};
+    for (int y = 3; y <= 5; ++y)
+        tablicaPlanszy[y] = {".", ".", ".", ".", ".", ".", ".", ".", "."};
+    tablicaPlanszy[6] = {"P", "P", "P", "P", "P", "P", "P", "P", "P"};
+    tablicaPlanszy[7] = {".", "B", ".", ".", ".", ".", ".", "R", "."};
+    tablicaPlanszy[8] = {"L", "N", "S", "G", "K", "G", "S", "N", "L"};
     tura = true;
-
-
-    tablicaPlanszy = {{
-        {-7, -6, -5, -4, -1, -4, -5, -6, -7}, // Gracz 2 (wartości ujemne)
-        {0, -2, 0, 0, 0, 0, 0, -3, 0},
-        {-8, -8, -8, -8, -8, -8, -8, -8, -8},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8},         // Gracz 1 (wartości dodatnie)
-        {0, 3, 0, 0, 0, 0, 0, 2, 0},
-        {7, 6, 5, 4, 1, 4, 5, 6, 7}
-    }};
-
 }
 plansza::~plansza() = default;
-void plansza::wyswietlPlansze() const
-{
-    for(int i = 0; i <= 8; i++) {
-        for(int j = 0; j <= 8; j++) {
-            cout << setw(2)<<tablicaPlanszy[i][j] << " ";
+
+void plansza::wyswietlPlansze() const {
+    cout << "   ";
+    for (int x = 0; x < SIZE; ++x) cout << x+1 << " ";
+    cout << endl;
+    for (int y = 0; y < SIZE; ++y) {
+        cout << y+1 << (y+1 < 10 ? "  " : " ");
+        for (int x = 0; x < SIZE; ++x) {
+            cout << tablicaPlanszy[y][x] << " ";
         }
         cout << endl;
     }
 }
-//_______________________________________________
-//FUNKCJE POZA KLASAMI
 
-bool isValidPosition(int x, int y)
-{
+string plansza::getPole(int x, int y) const {
+    return tablicaPlanszy[y][x];
+}
+void plansza::setPole(int x, int y, const string& val) {
+    tablicaPlanszy[y][x] = val;
+}
+
+// GRACZ_________________________________________
+gracz::gracz() { currentPlayer = 1; }
+gracz::~gracz() = default;
+void gracz::setCurrent(int i) { currentPlayer = i; }
+int gracz::getCurrent() const { return currentPlayer; }
+
+// WALIDACJA POZYCJI_____________________________
+bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
 }
-
-
-void wyborBierki()
-{
-    char input;
-    int fromX, fromY;
-    cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
-    cin >> input;
-    if(input == 'q') exit(0);
-    cin.putback(input);
-    cin >> fromX >> fromY;
-}
-
-//_________________________________________________
-//GRACZ_________________________
-gracz::gracz() {
-    currentPlayer=1;
-
-}
-gracz::~gracz()=default;
-
-void gracz::setCurrent(int i) {
-    currentPlayer=i;
-}
-
-
-int gracz::getCurrent() const {
-    return currentPlayer;
-}
-//___________________________________________
-/* Kody figur
- *  0 - puste pole
- *  1 - pionek
- *
- *
- *
- */

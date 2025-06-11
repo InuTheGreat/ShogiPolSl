@@ -1,72 +1,65 @@
-
 #include "klasy.h"
-
 using namespace std;
 
+bool isUpper(const string& s) {
+    return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+}
+bool isLower(const string& s) {
+    return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+}
 
 int main() {
     plansza p;
-    //int currentPlayer = 1; // 1 lub 2
     gracz gg;
+
     int fromX, fromY, toX, toY;
     char input;
 
-    while(true) {
+    while (true) {
         p.wyswietlPlansze();
+
         cout << "\nTura gracza " << gg.getCurrent() << " ("
              << (gg.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
-        //wyborBierki();
 
-
-        // Wybór bierki
         cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
         cin >> input;
-        if(input == 'q') break;
+        if (input == 'q') break;
         cin.putback(input);
         cin >> fromX >> fromY;
-
-        //Konwersja na indeksy od 0 (jeśli chcemy indeksowanie od 1)
         fromX--; fromY--;
-/*
-        // Walidacja pozycji startowej
-        if(!isValidPosition(fromX, fromY) || p.tablicaPlanszy[fromY][fromX] == 0) {
+
+        if (!isValidPosition(fromX, fromY) || p.getPole(fromX, fromY) == ".") {
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
-        }*/
-/*
-        // Sprawdzenie właściciela bierki
-        int piece = p.tablicaPlanszy[fromY][fromX];
-        if((currentPlayer == 1 && piece < 0) ||
-           (currentPlayer == 2 && piece > 0)) {
+        }
+
+        string piece = p.getPole(fromX, fromY);
+        if ((gg.getCurrent() == 1 && !isUpper(piece)) ||
+            (gg.getCurrent() == 2 && !isLower(piece))) {
             cout << "To nie twoja bierka!\n";
             continue;
-           }
+            }
 
-        // Wybór celu
         cout << "Podaj docelową pozycję (x y): ";
         cin >> toX >> toY;
-        // toX--; toY--;
+        toX--; toY--;
 
-        if(!isValidPosition(toX, toY)) {
+        if (!isValidPosition(toX, toY)) {
             cout << "Nieprawidłowa pozycja docelowa!\n";
             continue;
         }
 
-        // Sprawdzenie czy pole docelowe jest puste
-        if(p.tablicaPlanszy[toY][toX] != 0) {
+        if (p.getPole(toX, toY) != ".") {
             cout << "Pole docelowe nie jest puste! Wybierz inne pole.\n";
             continue;
         }
 
-        // Wykonanie ruchu
-        p.tablicaPlanszy[toY][toX] = piece;
-        p.tablicaPlanszy[fromY][fromX] = 0;
+        // Przesunięcie bierki
+        p.setPole(toX, toY, piece);
+        p.setPole(fromX, fromY, ".");
 
-        // Zmiana gracza
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;  */
+        gg.setCurrent(gg.getCurrent() == 1 ? 2 : 1);
     }
-    //plansza p;
-    p.wyswietlPlansze();
     return 0;
 }
