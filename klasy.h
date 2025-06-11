@@ -6,8 +6,8 @@
 #define KLASY_H
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <array>
+#include <iomanip>
 
 using namespace std;
 class plansza;
