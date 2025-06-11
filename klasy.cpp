@@ -1,3 +1,8 @@
+//
+// Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
+// UPDATED 11/06/2025
+//
+
 #include "klasy.h"
 
 // FIGURA______________________________________
