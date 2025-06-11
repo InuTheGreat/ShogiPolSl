@@ -1,45 +1,19 @@
-#include <iostream>
-#include <iomanip>
+#include "klasy.h"
 
 using namespace std;
 
 const int SIZE = 9;
 
-// Zmodyfikowana plansza z wartościami ujemnymi dla gracza 2
-int board[SIZE][SIZE] = {
-    {-7, -6, -5, -4, -1, -4, -5, -6, -7}, // Gracz 2 (górna część)
-    {0, -2, 0, 0, 0, 0, 0, -3, 0},
-    {-8, -8, -8, -8, -8, -8, -8, -8, -8},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {8, 8, 8, 8, 8, 8, 8, 8, 8},         // Gracz 1 (dolna część)
-    {0, 3, 0, 0, 0, 0, 0, 2, 0},
-    {7, 6, 5, 4, 1, 4, 5, 6, 7}
-};
 
-void printBoard() {
-    cout << "\n  ";
-    for (int x = 0; x < SIZE; x++) {
-        cout << setw(2) << x+1 << " ";
-    }
-    cout << "\n";
+/*
 
-    for (int y = 0; y < SIZE; y++) {
-        cout << y+1 << " ";
-        for (int x = 0; x < SIZE; x++) {
-            cout << setw(2) << board[y][x] << " ";
-        }
-        cout << "\n";
-    }
-}
 
 bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
 }
-
+*/
 int main() {
-    int currentPlayer = 1; // 1 lub 2
+    /*int currentPlayer = 1; // 1 lub 2
     int fromX, fromY, toX, toY;
     char input;
 
@@ -96,6 +70,8 @@ int main() {
         // Zmiana gracza
         currentPlayer = (currentPlayer == 1) ? 2 : 1;
     }
-
+*/
+    plansza p;
+    p.wyswietlPlansze();
     return 0;
 }
