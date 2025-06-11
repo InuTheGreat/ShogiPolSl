@@ -60,3 +60,24 @@ int gracz::getCurrent() const { return currentPlayer; }
 bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
 }
+
+
+
+bool isUpper(const string& s) {
+    return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+}
+bool isLower(const string& s) {
+    return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+}
+
+bool pozycjaBierki(int& x, int& y)
+{
+    char input;
+    cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
+    cin >> input;
+    if (input == 'q') return false;
+    cin.putback(input);
+    cin >> x >> y;
+    x--; y--;
+    return true;
+}

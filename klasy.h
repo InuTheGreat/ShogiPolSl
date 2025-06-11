@@ -54,5 +54,8 @@ public:
 };
 
 bool isValidPosition(int x, int y);
+bool isUpper(const string& s);
+bool isLower(const string& s);
+bool pozycjaBierki(int& x, int& y);
 
 #endif //KLASY_H
