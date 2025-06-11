@@ -6,14 +6,15 @@ using namespace std;
 
 int main() {
     plansza p;
-    int currentPlayer = 1; // 1 lub 2
+    //int currentPlayer = 1; // 1 lub 2
+    gracz gg;
     int fromX, fromY, toX, toY;
     char input;
 
     while(true) {
         p.wyswietlPlansze();
-        cout << "\nTura gracza " << currentPlayer << " ("
-             << (currentPlayer == 1 ? "dolne" : "górne")
+        cout << "\nTura gracza " << gg.getCurrent() << " ("
+             << (gg.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
 
         // Wybór bierki
