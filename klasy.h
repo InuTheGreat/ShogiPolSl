@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <array>
 
 using namespace std;
 class plansza;
@@ -27,7 +28,7 @@ public:
 
 class plansza{
 private:
-    int tablicaPlanszy[9][9]{};
+    array<array<int, 9>, 9> tablicaPlanszy;
     bool tura;
     friend void figura::edytujPlansze(plansza& p,int a, int b);
 public:
