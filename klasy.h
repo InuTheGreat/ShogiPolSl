@@ -7,8 +7,8 @@
 #define KLASY_H
 
 #include <iostream>
-#include <array>
 #include <string>
+#include <array>
 using namespace std;
 
 const int SIZE = 9;
@@ -53,9 +53,13 @@ public:
     void setCurrent(int i);
 };
 
+// WALIDACJA POZYCJI I RUCHÓW_____________________________
 bool isValidPosition(int x, int y);
 bool isUpper(const string& s);
 bool isLower(const string& s);
 bool pozycjaBierki(int& x, int& y);
+
+// WALIDACJA RUCHU FIGUR SZOGI
+bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int currentPlayer);
 
 #endif //KLASY_H
