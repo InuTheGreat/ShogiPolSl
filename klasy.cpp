@@ -46,7 +46,6 @@ plansza::plansza() {
     inicjalizujFigury();
 }
 plansza::~plansza() = default;
-
 bool plansza::wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const
 {
      {
@@ -95,10 +94,6 @@ bool plansza::wczytajPozycjeDocelowa(int &toX, int &toY, int currentPlayer) cons
 
     return true;
 }
-
-
-
-
 void plansza::wyswietlPlansze() const
 {
     cout << "   ";
@@ -114,17 +109,14 @@ void plansza::wyswietlPlansze() const
         cout << endl;
     }
 }
-
 string plansza::getPole(int x, int y) const
 {
     return tablicaPlanszy[y][x];
 }
-
 void plansza::setPole(int x, int y, const string& val)
 {
     tablicaPlanszy[y][x] = val;
 }
-
 void plansza::inicjalizujFigury()
 {
     for (int y = 0; y < SIZE; ++y)
@@ -139,8 +131,6 @@ void plansza::inicjalizujFigury()
         }
     }
 }
-
-
 figura* plansza::znajdzFigure(int x, int y)
 {
     for (auto& f : figury)
@@ -151,6 +141,73 @@ figura* plansza::znajdzFigure(int x, int y)
         }
     }
     return nullptr;
+}//zastanowić się czy nie można zrobić tego lepiej
+bool plansza::czySzach(int gracz) const
+{
+    int kingX,kingY;
+    string flagaKrola = (gracz == 1) ? "K" : "k";
+
+    for (int y = 0; y < SIZE; ++y)
+        {
+        for (int x = 0; x < SIZE; ++x)
+        {
+            if (tablicaPlanszy[y][x] == flagaKrola)
+            {
+                kingX = x;
+                kingY = y;
+                break;
+            }
+        }
+    }
+
+    int przeciwnik = (gracz == 1) ? 2 : 1;
+    for (int y = 0; y < SIZE; ++y) {
+        for (int x = 0; x < SIZE; ++x) {
+            string pole = tablicaPlanszy[y][x];
+            if (pole != "." && ((gracz == 1 && isLower(pole)) || (gracz == 2 && isUpper(pole)))) {
+                if (isMoveValid(*this, x, y, kingX, kingY, przeciwnik)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+bool plansza::czyMat(int gracz) {
+    if (!czySzach(gracz)) return false;
+
+    for (int fromY = 0; fromY < SIZE; ++fromY) {
+        for (int fromX = 0; fromX < SIZE; ++fromX) {
+            string pole = tablicaPlanszy[fromY][fromX];
+            if (pole != "." && ((gracz == 1 && isUpper(pole)) || (gracz == 2 && isLower(pole)))) {
+
+                for (int toY = 0; toY < SIZE; ++toY) {
+                    for (int toX = 0; toX < SIZE; ++toX) {
+                        if (isMoveValid(*this, fromX, fromY, toX, toY, gracz)) {
+
+                            string originalFrom = tablicaPlanszy[fromY][fromX];
+                            string originalTo = tablicaPlanszy[toY][toX];
+                            tablicaPlanszy[toY][toX] = originalFrom;
+                            tablicaPlanszy[fromY][fromX] = ".";
+
+                            bool szachPoRuchu = czySzach(gracz);
+
+
+                            tablicaPlanszy[fromY][fromX] = originalFrom;
+                            tablicaPlanszy[toY][toX] = originalTo;
+
+                            if (!szachPoRuchu) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
 

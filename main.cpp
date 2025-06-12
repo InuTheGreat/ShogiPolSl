@@ -2,44 +2,54 @@
 using namespace std;
 
 int main() {
-    plansza p;
-    gracz gg;
+    plansza planszaGl;
+    gracz gracz1;
     int fromX, fromY, toX, toY;
 
     while (true) {
-        p.wyswietlPlansze();
-        cout << "\nTura gracza " << gg.getCurrent() << " ("
-             << (gg.getCurrent() == 1 ? "dolne" : "górne")
+        planszaGl.wyswietlPlansze();
+        cout << "\nTura gracza " << gracz1.getCurrent() << " ("
+             << (gracz1.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
+
+        if (planszaGl.czySzach(gracz1.getCurrent()))
+        {
+            cout << "UWAGA: Twój król jest w szachu!\n";
+            if (planszaGl.czyMat(gracz1.getCurrent()))
+            {
+                cout << "MAT! Gracz " << (gracz1.getCurrent() == 1 ? "2" : "1") << " wygrywa.\n";
+                break;
+            }
+        }
 
         if (!pozycjaBierki(fromX, fromY)) break;
 
-        if (!isValidPosition(fromX, fromY) || p.getPole(fromX, fromY) == ".") {
+        if (!isValidPosition(fromX, fromY) || planszaGl.getPole(fromX, fromY) == ".") {
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
         }
 
-        figura* figuraPtr = p.znajdzFigure(fromX, fromY);
-        if (!figuraPtr || figuraPtr->getGracz() != gg.getCurrent()) {
+        figura* figuraPtr = planszaGl.znajdzFigure(fromX, fromY);
+        if (!figuraPtr || figuraPtr->getGracz() != gracz1.getCurrent()) {
             cout << "To nie twoja bierka!\n";
             continue;
         }
 
-        if (!p.wczytajIWalidujRuch(toX, toY, fromX, fromY, gg.getCurrent())) {
+        if (!planszaGl.wczytajIWalidujRuch(toX, toY, fromX, fromY, gracz1.getCurrent())) {
             continue;
         }
 
-        string bierka = p.getPole(fromX, fromY);
+        string bierka = planszaGl.getPole(fromX, fromY);
         bool promotionPossible = false;
 
         if (figuraPtr && canPromote(bierka)) {
-            if (isPromotionZone(fromY, gg.getCurrent()) ||
-                isPromotionZone(toY, gg.getCurrent())) {
+            if (isPromotionZone(fromY, gracz1.getCurrent()) ||
+                isPromotionZone(toY, gracz1.getCurrent())) {
                 promotionPossible = true;
             }
         }
 
-        if (promotionPossible && mustPromote(bierka, toY, gg.getCurrent())) {
+        if (promotionPossible && mustPromote(bierka, toY, gracz1.getCurrent())) {
             bierka = promotePiece(bierka);
             figuraPtr->promuj();
             cout << "Promocja obowiązkowa!\n";
@@ -56,11 +66,11 @@ int main() {
             cin.ignore();
         }
 
-        p.setPole(toX, toY, bierka);
-        p.setPole(fromX, fromY, ".");
+        planszaGl.setPole(toX, toY, bierka);
+        planszaGl.setPole(fromX, fromY, ".");
         figuraPtr->ustawPozycje(toX, toY);
 
-        gg.setCurrent(gg.getCurrent() == 1 ? 2 : 1);
+        gracz1.setCurrent(gracz1.getCurrent() == 1 ? 2 : 1);
     }
 
     return 0;
