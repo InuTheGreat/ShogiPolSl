@@ -25,11 +25,11 @@ int main() {
             continue;
         }
 
-        string piece = p.getPole(fromX, fromY);
+        string bierka = p.getPole(fromX, fromY);
         figura* figuraPtr = p.znajdzFigure(fromX, fromY);
 
-        if ((gg.getCurrent() == 1 && !isUpper(piece)) ||
-            (gg.getCurrent() == 2 && !isLower(piece))) {
+        if ((gg.getCurrent() == 1 && !isUpper(bierka)) ||
+            (gg.getCurrent() == 2 && !isLower(bierka))) {
             cout << "To nie twoja bierka!\n";
             continue;
         }
@@ -59,14 +59,14 @@ int main() {
 
         // PROMOCJA
         bool promotionPossible = false;
-        if (figuraPtr && canPromote(piece)) {
+        if (figuraPtr && canPromote(bierka)) {
             if (isPromotionZone(fromY, gg.getCurrent()) || isPromotionZone(toY, gg.getCurrent())) {
                 promotionPossible = true;
             }
         }
 
-        if (promotionPossible && mustPromote(piece, toY, gg.getCurrent())) {
-            piece = promotePiece(piece);
+        if (promotionPossible && mustPromote(bierka, toY, gg.getCurrent())) {
+            bierka = promotePiece(bierka);
             if (figuraPtr) figuraPtr->promuj();
             cout << "Promocja obowiązkowa!\n";
         } else if (promotionPossible) {
@@ -74,14 +74,14 @@ int main() {
             char odp;
             cin >> odp;
             if (odp == 't' || odp == 'T') {
-                piece = promotePiece(piece);
+                bierka = promotePiece(bierka);
                 if (figuraPtr) figuraPtr->promuj();
                 cout << "Bierka została promowana!\n";
             }
         }
 
         // Przesunięcie bierki
-        p.setPole(toX, toY, piece);
+        p.setPole(toX, toY, bierka);
         p.setPole(fromX, fromY, ".");
         if (figuraPtr) figuraPtr->ustawPozycje(toX, toY);
 
