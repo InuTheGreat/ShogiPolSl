@@ -36,6 +36,7 @@ public:
     int pozycjaY() const;
     void ustawPozycje(int x, int y);
     const int* aktualnaPozycja() const;
+
 };
 //________________________________________________________
 
@@ -56,6 +57,8 @@ public:
     void setPole(int x, int y, const string& val);
     void inicjalizujFigury();
     figura* znajdzFigure(int x, int y);
+    bool wczytajPozycjeDocelowa(int& toX, int& toY, int currentPlayer) const;
+    bool wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const;
 };
 //________________________________________________________
 

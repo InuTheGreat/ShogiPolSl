@@ -47,7 +47,7 @@ bool pozycjaBierki(int& x, int& y) {
             return true;
         }
     }
-    cout <<endl<< "Nieprawidłowe dane! Wprowadź tylko dwie liczby lub 'q'.\n";
+    cerr<<endl<< "Nieprawidłowe dane! Wprowadź tylko dwie liczby lub 'q'.\n";
     cin.clear();
     return true;
 }

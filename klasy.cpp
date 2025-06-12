@@ -47,6 +47,58 @@ plansza::plansza() {
 }
 plansza::~plansza() = default;
 
+bool plansza::wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const
+{
+     {
+        if (!wczytajPozycjeDocelowa(toX, toY, currentPlayer)) {
+            return false;
+        }
+        if (!isMoveValid(*this, fromX, fromY, toX, toY, currentPlayer)) {
+            cout << "Nieprawidłowy ruch dla tej bierki!\n";
+            return false;
+        }
+        return true;
+    }
+}
+bool plansza::wczytajPozycjeDocelowa(int &toX, int &toY, int currentPlayer) const
+{
+    string input;
+    cout << "Podaj docelową pozycję (x y) lub 'q' aby anulować: ";
+    getline(cin, input);
+
+    if (input == "q") {
+        return false;
+    }
+
+    istringstream iss(input);
+    if (!(iss >> toX >> toY)) {
+        cerr << "Nieprawidłowy format! Wprowadź dwie liczby (np. '3 5').\n";
+        return false;
+    }
+
+    toX--;
+    toY--;
+
+    if (!isValidPosition(toX, toY)) {
+        cout << "Nieprawidłowa pozycja docelowa!\n";
+        return false;
+    }
+
+    string target = getPole(toX, toY);
+    if (target != ".") {
+        if ((isUpper(target) && currentPlayer == 1) ||
+            (isLower(target) && currentPlayer == 2)) {
+            cout << "Nie możesz zbić własnej bierki!\n";
+            return false;
+            }
+    }
+
+    return true;
+}
+
+
+
+
 void plansza::wyswietlPlansze() const
 {
     cout << "   ";
