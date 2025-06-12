@@ -72,11 +72,14 @@ public:
 class gracz {
 private:
     int currentPlayer;
+    array<vector<string>, 2> reka;
 public:
     gracz();
     ~gracz();
     int getCurrent() const;
     void setCurrent(int i);
+    void dodajDoReki(const string& figura);
+    void wyswietlReke() const;
 };
 
 

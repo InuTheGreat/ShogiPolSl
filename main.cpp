@@ -68,6 +68,7 @@ int main() {
         string docelowaBierka = planszaGl.getPole(toX, toY);
         if (docelowaBierka != ".")
         {
+            gracz1.dodajDoReki(docelowaBierka);
             planszaGl.usunFigure(toX, toY);
         }
         planszaGl.setPole(toX, toY, bierka);

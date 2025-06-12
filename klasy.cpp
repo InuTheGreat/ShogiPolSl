@@ -224,3 +224,18 @@ gracz::gracz() { currentPlayer = 1; }
 gracz::~gracz() = default;
 void gracz::setCurrent(int i) { currentPlayer = i; }
 int gracz::getCurrent() const { return currentPlayer; }
+void gracz::dodajDoReki(const string& figura) {
+    reka[currentPlayer-1].push_back(figura);
+}
+
+void gracz::wyswietlReke() const {
+    cout << "Reka gracza " << currentPlayer << ": ";
+    if (reka[currentPlayer-1].empty()) {
+        cout << "pusta";
+    } else {
+        for (const auto& f : reka[currentPlayer-1]) {
+            cout << f << " ";
+        }
+    }
+    cout << endl;
+}
