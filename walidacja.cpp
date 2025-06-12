@@ -1,5 +1,5 @@
 //
-// Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
+// Created by Konrad Mrozowski & Mateusz Pietrzak on 12/06/2025
 // UPDATED 12/06/2025
 //
 #include "klasy.h"
@@ -9,11 +9,27 @@ bool isValidPosition(int x, int y) {
 }
 
 bool isUpper(const string& s) {
-    return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+    if (!s.empty() && s[0] == '+')
+    {
+        return !s.empty() && s[1] >= 'A' && s[1] <= 'Z';
+    }
+    else
+    {
+        return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+    }
+
 }
 
 bool isLower(const string& s) {
-    return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+    if (!s.empty() && s[0] == '+')
+    {
+        return !s.empty() && s[1] >= 'a' && s[1] <= 'z';
+    }
+    else
+    {
+        return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+    }
+
 }
 
 bool pozycjaBierki(int& x, int& y) {
@@ -37,7 +53,16 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
     int dy = toY - fromY;
 
     if ((currentPlayer == 1 && !isUpperPiece) || (currentPlayer == 2 && isUpperPiece)) return false;
-    if (piece[0] == '+') type = tolower(piece[1]); // promowana bierka
+    if (piece[0] == '+')  //type = tolower(piece[1]); // promowana bierka
+    {
+        if (tolower(piece[1]) == 'p' ||
+            tolower(piece[1]) == 'l' ||
+            tolower(piece[1]) == 'n' ||
+            tolower(piece[1]) == 's')
+        {
+            type = 'g';
+        }
+    }
 
     switch(type) {
         case 'k': // Król

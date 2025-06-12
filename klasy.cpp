@@ -82,13 +82,13 @@ void plansza::inicjalizujFigury()
             string pole = tablicaPlanszy[y][x];
             if (pole != ".")
             {
-                figury.emplace_back(pole[0], x, y);  // Tworzy figurę
+                figury.emplace_back(pole[0], x, y);
             }
         }
     }
 }
 
-// Znajdź figurę na pozycji (x, y)
+
 figura* plansza::znajdzFigure(int x, int y)
 {
     for (auto& f : figury)
