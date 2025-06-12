@@ -46,13 +46,15 @@ class plansza {
 private:
     array<array<string, SIZE>, SIZE> tablicaPlanszy;
     bool tura;
-    friend void figura::edytujPlansze(plansza& p, int a, int b);
+    vector<figura> figury;
 public:
     plansza();
     ~plansza();
     void wyswietlPlansze() const;
     string getPole(int x, int y) const;
     void setPole(int x, int y, const string& val);
+    void inicjalizujFigury();
+    figura* znajdzFigure(int x, int y);
 };
 //________________________________________________________
 

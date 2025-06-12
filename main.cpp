@@ -26,6 +26,7 @@ int main() {
         }
 
         string piece = p.getPole(fromX, fromY);
+        figura* figuraPtr = p.znajdzFigure(fromX, fromY);
 
         if ((gg.getCurrent() == 1 && !isUpper(piece)) ||
             (gg.getCurrent() == 2 && !isLower(piece))) {
@@ -58,7 +59,7 @@ int main() {
 
         // PROMOCJA
         bool promotionPossible = false;
-        if (canPromote(piece)) {
+        if (figuraPtr && canPromote(piece)) {
             if (isPromotionZone(fromY, gg.getCurrent()) || isPromotionZone(toY, gg.getCurrent())) {
                 promotionPossible = true;
             }
@@ -66,6 +67,7 @@ int main() {
 
         if (promotionPossible && mustPromote(piece, toY, gg.getCurrent())) {
             piece = promotePiece(piece);
+            if (figuraPtr) figuraPtr->promuj();
             cout << "Promocja obowiązkowa!\n";
         } else if (promotionPossible) {
             cout << "Czy chcesz promować tę bierkę? (t/n): ";
@@ -73,6 +75,7 @@ int main() {
             cin >> odp;
             if (odp == 't' || odp == 'T') {
                 piece = promotePiece(piece);
+                if (figuraPtr) figuraPtr->promuj();
                 cout << "Bierka została promowana!\n";
             }
         }
@@ -80,6 +83,7 @@ int main() {
         // Przesunięcie bierki
         p.setPole(toX, toY, piece);
         p.setPole(fromX, fromY, ".");
+        if (figuraPtr) figuraPtr->ustawPozycje(toX, toY);
 
         gg.setCurrent(gg.getCurrent() == 1 ? 2 : 1);
     }

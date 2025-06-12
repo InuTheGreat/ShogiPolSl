@@ -1,19 +1,8 @@
 //
-// Created by Konrad Mrozowski on 12/06/2025.
+// Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
+// UPDATED 12/06/2025
+//
 #include "klasy.h"
-
-
-
-
-
-
-
-
-
-
-
-
-
 // WALIDACJA POZYCJI_____________________________
 bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
@@ -94,7 +83,7 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                 if(p.getPole(fromX, y) != ".") return false;
             return true;
         }
-        case 'n': // Koń(KM: A to nie miał być skoczek? Koń to technicznie promowany goniec)
+        case 'n': // Koń (Skoczek)
             if(isUpperPiece)
                 return dy == -2 && abs(dx) == 1;
             else
@@ -110,13 +99,13 @@ bool isPromotionZone(int y, int player) {
     else return y >= 6 && y <= 8;
 }
 
-bool canPromote(const std::string& piece) {
+bool canPromote(const string& piece) {
     char c = tolower(piece[0]);
     if (piece[0] == '+') return false; // już promowana
     return c == 'p' || c == 'l' || c == 'n' || c == 's' || c == 'b' || c == 'r';
 }
 
-bool mustPromote(const std::string& piece, int toY, int player) {
+bool mustPromote(const string& piece, int toY, int player) {
     char c = tolower(piece[0]);
     if (piece[0] == '+') return false;
     if (c == 'p' || c == 'l') {
@@ -129,9 +118,8 @@ bool mustPromote(const std::string& piece, int toY, int player) {
     return false;
 }
 
-std::string promotePiece(const std::string& piece) {
+string promotePiece(const string& piece) {
     if (piece[0] == '+') return piece; // już promowana
     char c = piece[0];
-    return "+" + std::string(1, c);
+    return "+" + string(1, c);
 }
-
