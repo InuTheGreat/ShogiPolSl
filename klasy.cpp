@@ -14,7 +14,7 @@ figura::figura(char symbol, int x, int y)
 }
 
 figura:: ~figura()= default;
-char figura::getSymbol() const { return  symbol; }
+
 int figura::getGracz() const { return gracz; }
 bool figura::isPromoted() const { return promowana; }
 void figura::promuj() { promowana = true; }
@@ -27,10 +27,7 @@ void figura::ustawPozycje(int x, int y)
     pozycja[1] = y;
 }
 
-const int* figura::aktualnaPozycja() const
-{
-    return pozycja;
-}
+
 
 // PLANSZA_________________________________________
 plansza::plansza() {
@@ -42,32 +39,28 @@ plansza::plansza() {
     tablicaPlanszy[6] = {"P", "P", "P", "P", "P", "P", "P", "P", "P"};
     tablicaPlanszy[7] = {".", "B", ".", ".", ".", ".", ".", "R", "."};
     tablicaPlanszy[8] = {"L", "N", "S", "G", "K", "G", "S", "N", "L"};
-    tura = true;
     inicjalizujFigury();
 }
 plansza::~plansza() = default;
-bool plansza::wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const
-{
-     {
-        if (!wczytajPozycjeDocelowa(toX, toY, currentPlayer)) {
-            return false;
-        }
-        if (!isMoveValid(*this, fromX, fromY, toX, toY, currentPlayer)) {
-            cout << "Nieprawidłowy ruch dla tej bierki!\n";
-            return false;
-        }
-        return true;
+bool plansza::wczytajRuch(int& fromX, int& fromY, int& toX, int& toY, int currentPlayer) {
+    if (!pozycjaBierki(fromX, fromY, currentPlayer)) return false;
+
+    if (!isValidPosition(fromX, fromY) || getPole(fromX, fromY) == ".") {
+        cout << "Nieprawidłowa pozycja startowa!\n";
+        return false;
     }
-}
-bool plansza::wczytajPozycjeDocelowa(int &toX, int &toY, int currentPlayer) const
-{
+
+    figura* figuraPtr = znajdzFigure(fromX, fromY);
+    if (!figuraPtr || figuraPtr->getGracz() != currentPlayer) {
+        cout << "To nie twoja bierka!\n";
+        return false;
+    }
+
     string input;
     cout << "Podaj docelową pozycję (x y) lub 'q' aby anulować: ";
     getline(cin, input);
 
-    if (input == "q") {
-        return false;
-    }
+    if (input == "q") return false;
 
     istringstream iss(input);
     if (!(iss >> toX >> toY)) {
@@ -75,21 +68,25 @@ bool plansza::wczytajPozycjeDocelowa(int &toX, int &toY, int currentPlayer) cons
         return false;
     }
 
-    toX--;
-    toY--;
+    toX--; toY--;
 
     if (!isValidPosition(toX, toY)) {
         cout << "Nieprawidłowa pozycja docelowa!\n";
         return false;
     }
 
+
     string target = getPole(toX, toY);
     if (target != ".") {
-        if ((isUpper(target) && currentPlayer == 1) ||
-            (isLower(target) && currentPlayer == 2)) {
+        if ((isUpper(target) && currentPlayer == 1) || (isLower(target) && currentPlayer == 2)) {
             cout << "Nie możesz zbić własnej bierki!\n";
             return false;
-            }
+        }
+    }
+
+    if (!isMoveValid(*this, fromX, fromY, toX, toY, currentPlayer)) {
+        cout << "Nieprawidłowy ruch dla tej bierki!\n";
+        return false;
     }
 
     return true;
@@ -209,7 +206,23 @@ bool plansza::czyMat(int gracz) {
 
     return true;
 }
+void plansza::setPole(int x, int y, const std::string& val, int currentPlayer)
+{
 
+    if (currentPlayer != 0 && canPromote(val))
+        {
+        if (mustPromote(val, y, currentPlayer))
+            {
+            tablicaPlanszy[y][x] = promotePiece(val);
+            figura* f = znajdzFigure(x, y);
+            if (f) f->promuj();
+            return;
+        }
+    }
+
+
+    tablicaPlanszy[y][x] = val;
+}
 
 // GRACZ_________________________________________
 gracz::gracz() { currentPlayer = 1; }

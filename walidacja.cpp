@@ -32,24 +32,25 @@ bool isLower(const string& s) {
 
 }
 
-bool pozycjaBierki(int& x, int& y) {
-    string input;
-    cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
-    getline(cin, input);
-    if (input == "q") return false;
-
-    istringstream iss(input);
-
-    if (iss >> x >> y) {
-        string remaining;
-        if (!(iss >> remaining)) {
-            x--; y--;
-            return true;
+bool pozycjaBierki(int& x, int& y, int currentPlayer)
+{
+        string input;
+        cout << "Podaj pozycję bierki (x y) lub 'q' aby się poddać i wyjść: ";
+        getline(cin, input);
+        if (input == "q")
+        {
+            cout << "\nGracz " << currentPlayer << " poddał się!\n";
+            cout << "Gracz " << (currentPlayer == 1 ? 2 : 1) << " wygrywa!\n\n";
+            exit(0);
         }
-    }
-    cerr<<endl<< "Nieprawidłowe dane! Wprowadź tylko dwie liczby lub 'q'.\n";
-    cin.clear();
-    return true;
+
+        istringstream iss(input);
+        if (!(iss >> x >> y)) {
+            cerr << "Nieprawidłowe dane! Wprowadź dwie liczby.\n";
+            return false;
+        }
+        x--; y--;
+        return true;
 }
 
 // WALIDACJA RUCHU FIGUR SZOGI___________________

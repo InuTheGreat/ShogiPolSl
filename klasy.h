@@ -20,22 +20,20 @@ class plansza;
 // FIGURA____________________________________________
 class figura {
 private:
-    string nazwa;
     char symbol;
     bool promowana;
     int gracz;
     int pozycja[2];
 public:
     figura(char symbol, int x, int y);
-    virtual ~figura();
-    char getSymbol() const;
+    ~figura();
     int getGracz() const;
     bool isPromoted() const;
     void promuj();
     int pozycjaX() const;
     int pozycjaY() const;
     void ustawPozycje(int x, int y);
-    const int* aktualnaPozycja() const;
+
 
 };
 //________________________________________________________
@@ -47,7 +45,6 @@ public:
 class plansza {
 private:
     array<array<string, SIZE>, SIZE> tablicaPlanszy;
-    bool tura;
     vector<figura> figury;
 public:
     plansza();
@@ -57,10 +54,10 @@ public:
     void setPole(int x, int y, const string& val);
     void inicjalizujFigury();
     figura* znajdzFigure(int x, int y);
-    bool wczytajPozycjeDocelowa(int& toX, int& toY, int currentPlayer) const;
-    bool wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const;
+    bool wczytajRuch(int& fromX, int& fromY, int& toX, int& toY, int currentPlayer);
     bool czySzach(int gracz) const;
     bool czyMat(int gracz);
+    void setPole(int x, int y, const std::string& val, int currentPlayer = 0);
 };
 //________________________________________________________
 
@@ -88,7 +85,7 @@ public:
 bool isValidPosition(int x, int y );
 bool isUpper(const string& s);
 bool isLower(const string& s);
-bool pozycjaBierki(int& x, int& y);
+bool pozycjaBierki(int& x, int& y, int currentPlayer);
 
 // WALIDACJA RUCHU FIGUR SZOGI
 bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int currentPlayer);
