@@ -65,7 +65,11 @@ int main() {
             }
             cin.ignore();
         }
-
+        string docelowaBierka = planszaGl.getPole(toX, toY);
+        if (docelowaBierka != ".")
+        {
+            planszaGl.usunFigure(toX, toY);
+        }
         planszaGl.setPole(toX, toY, bierka);
         planszaGl.setPole(fromX, fromY, ".");
         figuraPtr->ustawPozycje(toX, toY);

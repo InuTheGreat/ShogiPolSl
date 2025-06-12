@@ -61,6 +61,7 @@ public:
     bool wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const;
     bool czySzach(int gracz) const;
     bool czyMat(int gracz);
+    bool usunFigure(int x, int y);
 };
 //________________________________________________________
 
