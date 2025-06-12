@@ -100,7 +100,34 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                     return false;
             return true;
         }
+        case 'h'://koń. h od horse czyli promowany goniec
+        {
+                if (abs(dx) <= 1 && abs(dy) <= 1) return true;
+                if (abs(dx) == abs(dy))
+                {
+                    int stepX = dx > 0 ? 1 : -1;
+                    int stepY = dy > 0 ? 1 : -1;
+                    for(int i=1; i<abs(dx); ++i)
+                        if(p.getPole(fromX + i*stepX, fromY + i*stepY) != ".")
+                            return false;
+                    return true;
+                }
+                return false;
+        }
         case 'r': { // Wieża
+            if(dx != 0 && dy != 0) return false;
+            int step = dx != 0 ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1);
+            int steps = max(abs(dx), abs(dy));
+            for(int i=1; i<steps; ++i) {
+                int x = fromX + (dx != 0 ? i*step : 0);
+                int y = fromY + (dy != 0 ? i*step : 0);
+                if(p.getPole(x, y) != ".") return false;
+            }
+            return true;
+        }
+        case 'd'://d od dragon czyli smok, czyli promowana wieża
+        {
+            if (abs(dx) <= 1 && abs(dy) <= 1) return true;
             if(dx != 0 && dy != 0) return false;
             int step = dx != 0 ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1);
             int steps = max(abs(dx), abs(dy));
@@ -122,7 +149,7 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                 if(p.getPole(fromX, y) != ".") return false;
             return true;
         }
-        case 'n': // Koń (Skoczek)
+        case 'n': // Skoczek
             if(isUpperPiece)
                 return dy == -2 && abs(dx) == 1;
             else
