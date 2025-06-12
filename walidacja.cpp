@@ -33,13 +33,22 @@ bool isLower(const string& s) {
 }
 
 bool pozycjaBierki(int& x, int& y) {
-    char input;
+    string input;
     cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
-    cin >> input;
-    if (input == 'q') return false;
-    cin.putback(input);
-    cin >> x >> y;
-    x--; y--;
+    getline(cin, input);
+    if (input == "q") return false;
+
+    istringstream iss(input);
+
+    if (iss >> x >> y) {
+        string remaining;
+        if (!(iss >> remaining)) {
+            x--; y--;
+            return true;
+        }
+    }
+    cout <<endl<< "Nieprawidłowe dane! Wprowadź tylko dwie liczby lub 'q'.\n";
+    cin.clear();
     return true;
 }
 

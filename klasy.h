@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <sstream>
 #include <cmath>
 using namespace std;
 
