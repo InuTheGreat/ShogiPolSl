@@ -22,7 +22,7 @@ int main() {
             }
         }
 
-        if (!pozycjaBierki(fromX, fromY)) break;
+        if (!pozycjaBierki(fromX, fromY, gracz1)) break;
 
         if (!isValidPosition(fromX, fromY) || planszaGl.getPole(fromX, fromY) == ".") {
             cout << "Nieprawidłowa pozycja startowa!\n";
@@ -65,7 +65,11 @@ int main() {
             }
             cin.ignore();
         }
-
+        string docelowaBierka = planszaGl.getPole(toX, toY);
+        if (docelowaBierka != ".")
+        {
+            planszaGl.usunFigure(toX, toY);
+        }
         planszaGl.setPole(toX, toY, bierka);
         planszaGl.setPole(fromX, fromY, ".");
         figuraPtr->ustawPozycje(toX, toY);

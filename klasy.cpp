@@ -209,7 +209,15 @@ bool plansza::czyMat(int gracz) {
 
     return true;
 }
-
+bool plansza::usunFigure(int x, int y) {
+    for (auto it = figury.begin(); it != figury.end(); ++it) {
+        if (it->pozycjaX() == x && it->pozycjaY() == y) {
+            figury.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
 
 // GRACZ_________________________________________
 gracz::gracz() { currentPlayer = 1; }
