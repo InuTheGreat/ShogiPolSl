@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <cmath>
 using namespace std;
 
 const int SIZE = 9;
@@ -27,6 +28,10 @@ public:
     void ruchFigury(plansza &p);
     void edytujPlansze(plansza& p, int a, int b);
 };
+//________________________________________________________
+
+
+
 
 // PLANSZA______________________________________________
 class plansza {
@@ -41,6 +46,10 @@ public:
     string getPole(int x, int y) const;
     void setPole(int x, int y, const string& val);
 };
+//________________________________________________________
+
+
+
 
 // GRACZ_________________________________________________
 class gracz {
@@ -53,6 +62,13 @@ public:
     void setCurrent(int i);
 };
 
+
+
+
+
+
+
+//________________
 bool isValidPosition(int x, int y );
 bool isUpper(const string& s);
 bool isLower(const string& s);
@@ -66,5 +82,4 @@ bool isPromotionZone(int y, int player);
 bool canPromote(const std::string& piece);
 bool mustPromote(const std::string& piece, int toY, int player);
 std::string promotePiece(const std::string& piece);
-
 #endif //KLASY_H

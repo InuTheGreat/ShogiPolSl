@@ -3,6 +3,17 @@
 #include "klasy.h"
 
 
+
+
+
+
+
+
+
+
+
+
+
 // WALIDACJA POZYCJI_____________________________
 bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;

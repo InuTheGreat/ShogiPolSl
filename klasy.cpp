@@ -4,7 +4,7 @@
 //
 
 #include "klasy.h"
-#include <cmath>
+
 
 // FIGURA______________________________________
 figura::figura(string nazwa, int kodFigury, int x, int y)
