@@ -22,7 +22,7 @@ int main() {
             }
         }
 
-        if (!pozycjaBierki(fromX, fromY)) break;
+        if (!pozycjaBierki(fromX, fromY, gracz1)) break;
 
         if (!isValidPosition(fromX, fromY) || planszaGl.getPole(fromX, fromY) == ".") {
             cout << "Nieprawidłowa pozycja startowa!\n";

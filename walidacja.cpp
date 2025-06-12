@@ -32,11 +32,16 @@ bool isLower(const string& s) {
 
 }
 
-bool pozycjaBierki(int& x, int& y) {
+bool pozycjaBierki(int& x, int& y,gracz g1) {
     string input;
     cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
     getline(cin, input);
-    if (input == "q") return false;
+    if (input == "q")
+    {
+        cout <<endl<< "Gracz "<<g1.getCurrent()<<" się poddał" << endl;
+        cout << "Wygrał gracz: "<<3 - g1.getCurrent()<<endl;
+        return false;
+    }
 
     istringstream iss(input);
 

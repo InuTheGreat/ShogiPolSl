@@ -88,7 +88,7 @@ public:
 bool isValidPosition(int x, int y );
 bool isUpper(const string& s);
 bool isLower(const string& s);
-bool pozycjaBierki(int& x, int& y);
+bool pozycjaBierki(int& x, int& y,gracz g1);
 
 // WALIDACJA RUCHU FIGUR SZOGI
 bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int currentPlayer);
