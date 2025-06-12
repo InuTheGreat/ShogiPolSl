@@ -219,6 +219,7 @@ bool plansza::usunFigure(int x, int y) {
     return false;
 }
 
+
 // GRACZ_________________________________________
 gracz::gracz() { currentPlayer = 1; }
 gracz::~gracz() = default;
@@ -238,4 +239,21 @@ void gracz::wyswietlReke() const {
         }
     }
     cout << endl;
+}
+const vector<string>& gracz::getReka() const {
+    return reka[currentPlayer-1];
+}
+
+bool gracz::czyRekaPusta() const {
+    return reka[currentPlayer-1].empty();
+}
+
+bool gracz::usunZReki(const string& bierka) {
+    auto& graczReka = reka[currentPlayer-1];
+    auto it = find(graczReka.begin(), graczReka.end(), bierka);
+    if (it != graczReka.end()) {
+        graczReka.erase(it);
+        return true;
+    }
+    return false;
 }

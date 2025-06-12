@@ -62,6 +62,7 @@ public:
     bool czySzach(int gracz) const;
     bool czyMat(int gracz);
     bool usunFigure(int x, int y);
+    bool polozBierkeZReki(gracz& g, int x, int y);
 };
 //________________________________________________________
 
@@ -80,6 +81,9 @@ public:
     void setCurrent(int i);
     void dodajDoReki(const string& figura);
     void wyswietlReke() const;
+    const vector<string>& getReka() const;
+    bool czyRekaPusta() const;
+    bool usunZReki(const string& bierka);
 };
 
 
