@@ -16,6 +16,7 @@ using namespace std;
 const int SIZE = 9;
 
 class plansza;
+class gracz;
 
 // FIGURA____________________________________________
 class figura {
@@ -62,7 +63,9 @@ public:
     bool czySzach(int gracz) const;
     bool czyMat(int gracz);
     bool usunFigure(int x, int y);
-    bool polozBierkeZReki(gracz& g, int x, int y);
+
+    bool polozBierkeZReki(gracz &g, int x, int y);
+
 };
 //________________________________________________________
 
