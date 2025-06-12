@@ -53,7 +53,7 @@ public:
     void setCurrent(int i);
 };
 
-bool isValidPosition(int x, int y);
+bool isValidPosition(int x, int y );
 bool isUpper(const string& s);
 bool isLower(const string& s);
 bool pozycjaBierki(int& x, int& y);
