@@ -12,13 +12,11 @@ int main() {
              << (gracz1.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
         gracz1.wyswietlReke();
-        cout<<endl;
+        cout << endl;
 
-        if (planszaGl.czySzach(gracz1.getCurrent()))
-        {
+        if (planszaGl.czySzach(gracz1.getCurrent())) {
             cout << "UWAGA: Twój król jest w szachu!\n";
-            if (planszaGl.czyMat(gracz1.getCurrent()))
-            {
+            if (planszaGl.czyMat(gracz1.getCurrent())) {
                 cout << "MAT! Gracz " << (gracz1.getCurrent() == 1 ? "2" : "1") << " wygrywa.\n";
                 break;
             }
@@ -26,7 +24,25 @@ int main() {
 
         if (!pozycjaBierki(fromX, fromY, gracz1)) break;
 
-        if (!isValidPosition(fromX, fromY) || planszaGl.getPole(fromX, fromY) == ".") {
+        if (planszaGl.getPole(fromX, fromY) == ".") {
+            if (!gracz1.czyRekaPusta()) {
+                cout << "Wybierasz puste pole. Chcesz położyć bierkę z ręki? (t/n): ";
+                char wybor;
+                cin >> wybor;
+                cin.ignore();
+
+                if (wybor == 't' || wybor == 'T') {
+                    if (planszaGl.polozBierkeZReki(gracz1, fromX, fromY)) {
+                        gracz1.setCurrent(gracz1.getCurrent() == 1 ? 2 : 1);
+                    }
+                    continue;
+                }
+            }
+            cout << "Nieprawidłowa pozycja startowa!\n";
+            continue;
+        }
+
+        if (!isValidPosition(fromX, fromY)) {
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
         }
@@ -67,12 +83,15 @@ int main() {
             }
             cin.ignore();
         }
+
         string docelowaBierka = planszaGl.getPole(toX, toY);
         if (docelowaBierka != ".")
         {
+
             gracz1.dodajDoReki(docelowaBierka);
             planszaGl.usunFigure(toX, toY);
         }
+
         planszaGl.setPole(toX, toY, bierka);
         planszaGl.setPole(fromX, fromY, ".");
         figuraPtr->ustawPozycje(toX, toY);
