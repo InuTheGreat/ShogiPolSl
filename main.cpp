@@ -1,5 +1,4 @@
-#include "klasy.h"
-#include <iostream>
+#include "klasy.h"git
 using namespace std;
 
 int main() {
@@ -13,7 +12,6 @@ int main() {
              << (gg.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
 
-        // 1. Wybór bierki do ruchu
         if (!pozycjaBierki(fromX, fromY)) break;
 
         if (!isValidPosition(fromX, fromY) || p.getPole(fromX, fromY) == ".") {
@@ -21,19 +19,16 @@ int main() {
             continue;
         }
 
-        // 2. Sprawdzenie czy bierka należy do gracza
         figura* figuraPtr = p.znajdzFigure(fromX, fromY);
         if (!figuraPtr || figuraPtr->getGracz() != gg.getCurrent()) {
             cout << "To nie twoja bierka!\n";
             continue;
         }
 
-        // 3. Wczytanie i walidacja ruchu (nowa metoda planszy)
         if (!p.wczytajIWalidujRuch(toX, toY, fromX, fromY, gg.getCurrent())) {
             continue;
         }
 
-        // 4. Obsługa promocji
         string bierka = p.getPole(fromX, fromY);
         bool promotionPossible = false;
 
@@ -58,15 +53,13 @@ int main() {
                 figuraPtr->promuj();
                 cout << "Bierka została promowana!\n";
             }
-            cin.ignore(); // Czyścimy bufor po cin >> odp
+            cin.ignore();
         }
 
-        // 5. Wykonanie ruchu
         p.setPole(toX, toY, bierka);
         p.setPole(fromX, fromY, ".");
         figuraPtr->ustawPozycje(toX, toY);
 
-        // 6. Zmiana gracza
         gg.setCurrent(gg.getCurrent() == 1 ? 2 : 1);
     }
 
