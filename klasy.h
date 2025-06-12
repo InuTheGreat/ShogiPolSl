@@ -20,13 +20,21 @@ class plansza;
 class figura {
 private:
     string nazwa;
-    int kodFigury;
+    char symbol;
+    bool promowana;
+    int gracz;
     int pozycja[2];
 public:
-    figura(string nazwa, int kodFigury, int x, int y);
-    ~figura();
-    void ruchFigury(plansza &p);
-    void edytujPlansze(plansza& p, int a, int b);
+    figura(char symbol, int x, int y);
+    virtual ~figura();
+    char getSymbol() const;
+    int getGracz() const;
+    bool isPromoted() const;
+    void promuj();
+    int pozycjaX() const;
+    int pozycjaY() const;
+    void ustawPozycje(int x, int y);
+    const int* aktualnaPozycja() const;
 };
 //________________________________________________________
 

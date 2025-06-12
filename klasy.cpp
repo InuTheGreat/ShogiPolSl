@@ -7,14 +7,30 @@
 
 
 // FIGURA______________________________________
-figura::figura(string nazwa, int kodFigury, int x, int y)
-: nazwa(nazwa), kodFigury(kodFigury) {
+figura::figura(char symbol, int x, int y)
+    : symbol(symbol), promowana(false), pozycja{x, y}
+{
+    gracz = (symbol >= 'A' && symbol <= 'Z') ? 1 : 2;
+}
+
+figura:: ~figura()= default;
+char figura::getSymbol() const { return  symbol; }
+int figura::getGracz() const { return gracz; }
+bool figura::isPromoted() const { return promowana; }
+void figura::promuj() { promowana = true; }
+
+int figura::pozycjaX() const { return pozycja[0]; }
+int figura::pozycjaY() const { return pozycja[1]; }
+void figura::ustawPozycje(int x, int y)
+{
     pozycja[0] = x;
     pozycja[1] = y;
 }
-figura::~figura() = default;
-void figura::ruchFigury(plansza& p) { /* ... */ }
-void figura::edytujPlansze(plansza& p, int a, int b) { /* ... */ }
+
+const int* figura::aktualnaPozycja() const
+{
+    return pozycja;
+}
 
 // PLANSZA_________________________________________
 plansza::plansza() {
