@@ -59,6 +59,8 @@ public:
     figura* znajdzFigure(int x, int y);
     bool wczytajPozycjeDocelowa(int& toX, int& toY, int currentPlayer) const;
     bool wczytajIWalidujRuch(int& toX, int& toY, int fromX, int fromY, int currentPlayer) const;
+    bool czySzach(int gracz) const;
+    bool czyMat(int gracz);
 };
 //________________________________________________________
 
