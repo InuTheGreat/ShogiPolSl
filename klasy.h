@@ -1,57 +1,70 @@
 //
-// Created by Konrad Mrozowski on 01/06/2025.
+// Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
+// UPDATED 12/06/2025
 //
 
 #ifndef KLASY_H
 #define KLASY_H
+
 #include <iostream>
 #include <string>
-#include <fstream>
-
+#include <array>
 using namespace std;
+
+const int SIZE = 9;
+
 class plansza;
 
+// FIGURA____________________________________________
 class figura {
 private:
-    string nazwa; //to tak tylko wstępnie. Wydaje mi się, że wyrzucimy ten parametr, gdyż wystarczy sam kod figury
-    int kodFigury{}; //Kod liczbowy, który identyfikuje figurę na planszy.
+    string nazwa;
+    int kodFigury;
     int pozycja[2];
 public:
     figura(string nazwa, int kodFigury, int x, int y);
     ~figura();
-
     void ruchFigury(plansza &p);
-    void edytujPlansze(plansza& p,int a, int b);
-
+    void edytujPlansze(plansza& p, int a, int b);
 };
 
-class plansza{
+// PLANSZA______________________________________________
+class plansza {
 private:
-    int tablicaPlanszy[9][9]{};
+    array<array<string, SIZE>, SIZE> tablicaPlanszy;
     bool tura;
-    friend void figura::edytujPlansze(plansza& p,int a, int b);
+    friend void figura::edytujPlansze(plansza& p, int a, int b);
 public:
     plansza();
     ~plansza();
-    void wyswietlPlansze();
-
-
+    void wyswietlPlansze() const;
+    string getPole(int x, int y) const;
+    void setPole(int x, int y, const string& val);
 };
 
-
-
-
-
-
-
-
-
-
-
+// GRACZ_________________________________________________
 class gracz {
-
+private:
+    int currentPlayer;
+public:
+    gracz();
+    ~gracz();
+    int getCurrent() const;
+    void setCurrent(int i);
 };
 
+bool isValidPosition(int x, int y);
+bool isUpper(const string& s);
+bool isLower(const string& s);
+bool pozycjaBierki(int& x, int& y);
 
+// WALIDACJA RUCHU FIGUR SZOGI
+bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int currentPlayer);
+
+// PROMOCJA SZOGI
+bool isPromotionZone(int y, int player);
+bool canPromote(const std::string& piece);
+bool mustPromote(const std::string& piece, int toY, int player);
+std::string promotePiece(const std::string& piece);
 
 #endif //KLASY_H
