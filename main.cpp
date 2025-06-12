@@ -1,4 +1,4 @@
-#include "klasy.h"git
+#include "klasy.h"
 using namespace std;
 
 int main() {
