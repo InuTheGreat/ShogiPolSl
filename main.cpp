@@ -11,6 +11,8 @@ int main() {
         cout << "\nTura gracza " << gracz1.getCurrent() << " ("
              << (gracz1.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
+        gracz1.wyswietlReke();
+        cout<<endl;
 
         if (planszaGl.czySzach(gracz1.getCurrent()))
         {
