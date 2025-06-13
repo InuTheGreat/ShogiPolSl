@@ -87,6 +87,7 @@ int main() {
         string docelowaBierka = planszaGl.getPole(toX, toY);
         if (docelowaBierka != ".")
         {
+            gracz1.procesujBierkeDoReki(docelowaBierka);
 
             gracz1.dodajDoReki(docelowaBierka);
             planszaGl.usunFigure(toX, toY);

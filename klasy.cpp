@@ -296,7 +296,8 @@ gracz::gracz() { currentPlayer = 1; }
 gracz::~gracz() = default;
 void gracz::setCurrent(int i) { currentPlayer = i; }
 int gracz::getCurrent() const { return currentPlayer; }
-void gracz::dodajDoReki(const string& figura) {
+void gracz::dodajDoReki(string& figura) {
+
     reka[currentPlayer-1].push_back(figura);
 }
 
@@ -327,4 +328,17 @@ bool gracz::usunZReki(const string& bierka) {
         return true;
     }
     return false;
+}
+void gracz::procesujBierkeDoReki(string &bierka)
+{
+    if (!bierka.empty() && bierka[0] == '+') {
+        bierka.erase(0, 1);
+    }
+
+    // Zamień wielkość liter w zależności od gracza
+    if (currentPlayer == 1) {
+        transform(bierka.begin(), bierka.end(), bierka.begin(), ::toupper);
+    } else {
+        transform(bierka.begin(), bierka.end(), bierka.begin(), ::tolower);
+    }
 }

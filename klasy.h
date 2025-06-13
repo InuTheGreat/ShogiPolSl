@@ -11,6 +11,7 @@
 #include <array>
 #include <sstream>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 
 const int SIZE = 9;
@@ -82,11 +83,12 @@ public:
     ~gracz();
     int getCurrent() const;
     void setCurrent(int i);
-    void dodajDoReki(const string& figura);
+    void dodajDoReki(string& figura);
     void wyswietlReke() const;
     const vector<string>& getReka() const;
     bool czyRekaPusta() const;
     bool usunZReki(const string& bierka);
+    void procesujBierkeDoReki(string& bierka);
 };
 
 
