@@ -218,9 +218,127 @@ bool plansza::usunFigure(int x, int y) {
     }
     return false;
 }
+bool plansza::polozBierkeZReki(gracz& g, int x, int y) {
+    if (g.czyRekaPusta()) {
+        return false;
+    }
+
+    cout << "Wybierz bierkę do położenia (lub 'q' aby anulować): ";
+
+    string bierka;
+    getline(cin, bierka);
+
+    if (bierka == "q") {
+        return false;
+    }
+
+    if (!isValidPosition(x, y)) {
+        cout << "Nieprawidłowa pozycja!\n";
+        return false;
+    }
+
+    if (getPole(x, y) != ".") {
+        cout << "Pozycja jest już zajęta!\n";
+        return false;
+    }
+
+    if (!g.usunZReki(bierka)) {
+        cout << "Nie masz tej bierki w ręce!\n";
+        return false;
+    }
+
+    // Sprawdź specjalne zasady dla pionków, lance i skoczków
+    char typ = tolower(bierka[0]);
+    int graczNr = g.getCurrent();
+
+    if (typ == 'p') {
+        if ((graczNr == 1 && y == 0) || (graczNr == 2 && y == SIZE-1)) {
+            cout << "Pion nie może być postawiony w ostatnim rzędzie!\n";
+            g.dodajDoReki(bierka); // Zwróć bierkę do ręki
+            return false;
+        }
+
+        for (int i = 0; i < SIZE; i++) {
+            string pole = getPole(x, i);
+            if (pole == (graczNr == 1 ? "P" : "p")) {
+                cout << "Nie możesz mieć dwóch pionków w tej samej kolumnie!\n";
+                g.dodajDoReki(bierka); // Zwróć bierkę do ręki
+                return false;
+            }
+        }
+    }
+    else if (typ == 'l') {
+        if ((graczNr == 1 && y == 0) || (graczNr == 2 && y == SIZE-1)) {
+            cout << "Lanca nie może być postawiona w ostatnim rzędzie!\n";
+            g.dodajDoReki(bierka); // Zwróć bierkę do ręki
+            return false;
+        }
+    }
+    else if (typ == 'n') {
+        if ((graczNr == 1 && (y == 0 || y == 1)) ||
+            (graczNr == 2 && (y == SIZE-1 || y == SIZE-2))) {
+            cout << "Skoczek nie może być postawiony w dwóch ostatnich rzędach!\n";
+            g.dodajDoReki(bierka); // Zwróć bierkę do ręki
+            return false;
+        }
+    }
+
+    // Wszystkie warunki spełnione - połóż bierkę
+    setPole(x, y, bierka);
+    figury.emplace_back(bierka[0], x, y);
+
+    return true;
+}
+
 
 // GRACZ_________________________________________
 gracz::gracz() { currentPlayer = 1; }
 gracz::~gracz() = default;
 void gracz::setCurrent(int i) { currentPlayer = i; }
 int gracz::getCurrent() const { return currentPlayer; }
+void gracz::dodajDoReki(string& figura) {
+
+    reka[currentPlayer-1].push_back(figura);
+}
+
+void gracz::wyswietlReke() const {
+    cout << "Reka gracza " << currentPlayer << ": ";
+    if (reka[currentPlayer-1].empty()) {
+        cout << "pusta";
+    } else {
+        for (const auto& f : reka[currentPlayer-1]) {
+            cout << f << " ";
+        }
+    }
+    cout << endl;
+}
+const vector<string>& gracz::getReka() const {
+    return reka[currentPlayer-1];
+}
+
+bool gracz::czyRekaPusta() const {
+    return reka[currentPlayer-1].empty();
+}
+
+bool gracz::usunZReki(const string& bierka) {
+    auto& graczReka = reka[currentPlayer-1];
+    auto it = find(graczReka.begin(), graczReka.end(), bierka);
+    if (it != graczReka.end()) {
+        graczReka.erase(it);
+        return true;
+    }
+    return false;
+}
+void gracz::procesujBierkeDoReki(string &bierka)
+{
+    if (!bierka.empty() && bierka[0] == '+') {
+        bierka.erase(0, 1);
+    }
+
+    // Zamień wielkość liter w zależności od gracza
+    if (currentPlayer == 1) {
+        transform(bierka.begin(), bierka.end(), bierka.begin(), ::toupper);
+    } else {
+        transform(bierka.begin(), bierka.end(), bierka.begin(), ::tolower);
+    }
+}
