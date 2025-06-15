@@ -1,29 +1,59 @@
 //
-// Created by Konrad Mrozowski on 12/06/2025.
+// Created by Konrad Mrozowski & Mateusz Pietrzak on 12/06/2025
+// UPDATED 12/06/2025
+//
 #include "klasy.h"
-
-
 // WALIDACJA POZYCJI_____________________________
 bool isValidPosition(int x, int y) {
     return x >= 0 && x < SIZE && y >= 0 && y < SIZE;
 }
 
 bool isUpper(const string& s) {
-    return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+    if (!s.empty() && s[0] == '+')
+    {
+        return !s.empty() && s[1] >= 'A' && s[1] <= 'Z';
+    }
+    else
+    {
+        return !s.empty() && s[0] >= 'A' && s[0] <= 'Z';
+    }
+
 }
 
 bool isLower(const string& s) {
-    return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+    if (!s.empty() && s[0] == '+')
+    {
+        return !s.empty() && s[1] >= 'a' && s[1] <= 'z';
+    }
+    else
+    {
+        return !s.empty() && s[0] >= 'a' && s[0] <= 'z';
+    }
+
 }
 
-bool pozycjaBierki(int& x, int& y) {
-    char input;
+bool pozycjaBierki(int& x, int& y,gracz g1) {
+    string input;
     cout << "Podaj pozycję bierki (x y) lub 'q' aby wyjść: ";
-    cin >> input;
-    if (input == 'q') return false;
-    cin.putback(input);
-    cin >> x >> y;
-    x--; y--;
+    getline(cin, input);
+    if (input == "q")
+    {
+        cout <<endl<< "Gracz "<<g1.getCurrent()<<" się poddał" << endl;
+        cout << "Wygrał gracz: "<<3 - g1.getCurrent()<<endl;
+        return false;
+    }
+
+    istringstream iss(input);
+
+    if (iss >> x >> y) {
+        string remaining;
+        if (!(iss >> remaining)) {
+            x--; y--;
+            return true;
+        }
+    }
+    cerr<<endl<< "Nieprawidłowe dane! Wprowadź tylko dwie liczby lub 'q'.\n";
+    cin.clear();
     return true;
 }
 
@@ -37,7 +67,16 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
     int dy = toY - fromY;
 
     if ((currentPlayer == 1 && !isUpperPiece) || (currentPlayer == 2 && isUpperPiece)) return false;
-    if (piece[0] == '+') type = tolower(piece[1]); // promowana bierka
+    if (piece[0] == '+')  //type = tolower(piece[1]); // promowana bierka
+    {
+        if (tolower(piece[1]) == 'p' ||
+            tolower(piece[1]) == 'l' ||
+            tolower(piece[1]) == 'n' ||
+            tolower(piece[1]) == 's')
+        {
+            type = 'g';
+        }
+    }
 
     switch(type) {
         case 'k': // Król
@@ -61,7 +100,34 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                     return false;
             return true;
         }
+        case 'h'://koń. h od horse czyli promowany goniec
+        {
+                if (abs(dx) <= 1 && abs(dy) <= 1) return true;
+                if (abs(dx) == abs(dy))
+                {
+                    int stepX = dx > 0 ? 1 : -1;
+                    int stepY = dy > 0 ? 1 : -1;
+                    for(int i=1; i<abs(dx); ++i)
+                        if(p.getPole(fromX + i*stepX, fromY + i*stepY) != ".")
+                            return false;
+                    return true;
+                }
+                return false;
+        }
         case 'r': { // Wieża
+            if(dx != 0 && dy != 0) return false;
+            int step = dx != 0 ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1);
+            int steps = max(abs(dx), abs(dy));
+            for(int i=1; i<steps; ++i) {
+                int x = fromX + (dx != 0 ? i*step : 0);
+                int y = fromY + (dy != 0 ? i*step : 0);
+                if(p.getPole(x, y) != ".") return false;
+            }
+            return true;
+        }
+        case 'd'://d od dragon czyli smok, czyli promowana wieża
+        {
+            if (abs(dx) <= 1 && abs(dy) <= 1) return true;
             if(dx != 0 && dy != 0) return false;
             int step = dx != 0 ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1);
             int steps = max(abs(dx), abs(dy));
@@ -83,7 +149,7 @@ bool isMoveValid(const plansza& p, int fromX, int fromY, int toX, int toY, int c
                 if(p.getPole(fromX, y) != ".") return false;
             return true;
         }
-        case 'n': // Koń(KM: A to nie miał być skoczek? Koń to technicznie promowany goniec)
+        case 'n': // Skoczek
             if(isUpperPiece)
                 return dy == -2 && abs(dx) == 1;
             else
@@ -99,13 +165,13 @@ bool isPromotionZone(int y, int player) {
     else return y >= 6 && y <= 8;
 }
 
-bool canPromote(const std::string& piece) {
+bool canPromote(const string& piece) {
     char c = tolower(piece[0]);
     if (piece[0] == '+') return false; // już promowana
     return c == 'p' || c == 'l' || c == 'n' || c == 's' || c == 'b' || c == 'r';
 }
 
-bool mustPromote(const std::string& piece, int toY, int player) {
+bool mustPromote(const string& piece, int toY, int player) {
     char c = tolower(piece[0]);
     if (piece[0] == '+') return false;
     if (c == 'p' || c == 'l') {
@@ -118,9 +184,8 @@ bool mustPromote(const std::string& piece, int toY, int player) {
     return false;
 }
 
-std::string promotePiece(const std::string& piece) {
+string promotePiece(const string& piece) {
     if (piece[0] == '+') return piece; // już promowana
     char c = piece[0];
-    return "+" + std::string(1, c);
+    return "+" + string(1, c);
 }
-

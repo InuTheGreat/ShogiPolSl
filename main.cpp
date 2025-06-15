@@ -1,87 +1,103 @@
-//
-// Created by Konrad Mrozowski & Mateusz Pietrzak on 01/06/2025
-// UPDATED 12/06/2025
-//
-
 #include "klasy.h"
-#include <iostream>
 using namespace std;
 
 int main() {
-    plansza p;
-    gracz gg;
+    plansza planszaGl;
+    gracz gracz1;
     int fromX, fromY, toX, toY;
 
     while (true) {
-        p.wyswietlPlansze();
-        cout << "\nTura gracza " << gg.getCurrent() << " ("
-             << (gg.getCurrent() == 1 ? "dolne" : "górne")
+        planszaGl.wyswietlPlansze();
+        cout << "\nTura gracza " << gracz1.getCurrent() << " ("
+             << (gracz1.getCurrent() == 1 ? "dolne" : "górne")
              << " bierki)\n";
+        gracz1.wyswietlReke();
+        cout << endl;
 
-        if (!pozycjaBierki(fromX, fromY)) break;
+        if (planszaGl.czySzach(gracz1.getCurrent())) {
+            cout << "UWAGA: Twój król jest w szachu!\n";
+            if (planszaGl.czyMat(gracz1.getCurrent())) {
+                cout << "MAT! Gracz " << (gracz1.getCurrent() == 1 ? "2" : "1") << " wygrywa.\n";
+                break;
+            }
+        }
 
-        if (!isValidPosition(fromX, fromY) || p.getPole(fromX, fromY) == ".") {
+        if (!pozycjaBierki(fromX, fromY, gracz1)) break;
+
+        if (planszaGl.getPole(fromX, fromY) == ".") {
+            if (!gracz1.czyRekaPusta()) {
+                cout << "Wybierasz puste pole. Chcesz położyć bierkę z ręki? (t/n): ";
+                char wybor;
+                cin >> wybor;
+                cin.ignore();
+
+                if (wybor == 't' || wybor == 'T') {
+                    if (planszaGl.polozBierkeZReki(gracz1, fromX, fromY)) {
+                        gracz1.setCurrent(gracz1.getCurrent() == 1 ? 2 : 1);
+                    }
+                    continue;
+                }
+            }
             cout << "Nieprawidłowa pozycja startowa!\n";
             continue;
         }
 
-        string piece = p.getPole(fromX, fromY);
+        if (!isValidPosition(fromX, fromY)) {
+            cout << "Nieprawidłowa pozycja startowa!\n";
+            continue;
+        }
 
-        if ((gg.getCurrent() == 1 && !isUpper(piece)) ||
-            (gg.getCurrent() == 2 && !isLower(piece))) {
+        figura* figuraPtr = planszaGl.znajdzFigure(fromX, fromY);
+        if (!figuraPtr || figuraPtr->getGracz() != gracz1.getCurrent()) {
             cout << "To nie twoja bierka!\n";
             continue;
         }
 
-        cout << "Podaj docelową pozycję (x y): ";
-        cin >> toX >> toY;
-        toX--; toY--;
-
-        if (!isValidPosition(toX, toY)) {
-            cout << "Nieprawidłowa pozycja docelowa!\n";
+        if (!planszaGl.wczytajIWalidujRuch(toX, toY, fromX, fromY, gracz1.getCurrent())) {
             continue;
         }
 
-        string target = p.getPole(toX, toY);
-        if (target != ".") {
-            if ((isUpper(target) && gg.getCurrent() == 1) ||
-                (isLower(target) && gg.getCurrent() == 2)) {
-                cout << "Nie możesz zbić własnej bierki!\n";
-                continue;
-            }
-        }
-
-        if (!isMoveValid(p, fromX, fromY, toX, toY, gg.getCurrent())) {
-            cout << "Nieprawidłowy ruch dla tej bierki!\n";
-            continue;
-        }
-
-        // PROMOCJA
+        string bierka = planszaGl.getPole(fromX, fromY);
         bool promotionPossible = false;
-        if (canPromote(piece)) {
-            if (isPromotionZone(fromY, gg.getCurrent()) || isPromotionZone(toY, gg.getCurrent())) {
+
+        if (figuraPtr && canPromote(bierka)) {
+            if (isPromotionZone(fromY, gracz1.getCurrent()) ||
+                isPromotionZone(toY, gracz1.getCurrent())) {
                 promotionPossible = true;
             }
         }
 
-        if (promotionPossible && mustPromote(piece, toY, gg.getCurrent())) {
-            piece = promotePiece(piece);
+        if (promotionPossible && mustPromote(bierka, toY, gracz1.getCurrent())) {
+            bierka = promotePiece(bierka);
+            figuraPtr->promuj();
             cout << "Promocja obowiązkowa!\n";
-        } else if (promotionPossible) {
+        }
+        else if (promotionPossible) {
             cout << "Czy chcesz promować tę bierkę? (t/n): ";
             char odp;
             cin >> odp;
             if (odp == 't' || odp == 'T') {
-                piece = promotePiece(piece);
+                bierka = promotePiece(bierka);
+                figuraPtr->promuj();
                 cout << "Bierka została promowana!\n";
             }
+            cin.ignore();
         }
 
-        // Przesunięcie bierki
-        p.setPole(toX, toY, piece);
-        p.setPole(fromX, fromY, ".");
+        string docelowaBierka = planszaGl.getPole(toX, toY);
+        if (docelowaBierka != ".")
+        {
+            gracz1.procesujBierkeDoReki(docelowaBierka);
 
-        gg.setCurrent(gg.getCurrent() == 1 ? 2 : 1);
+            gracz1.dodajDoReki(docelowaBierka);
+            planszaGl.usunFigure(toX, toY);
+        }
+
+        planszaGl.setPole(toX, toY, bierka);
+        planszaGl.setPole(fromX, fromY, ".");
+        figuraPtr->ustawPozycje(toX, toY);
+
+        gracz1.setCurrent(gracz1.getCurrent() == 1 ? 2 : 1);
     }
 
     return 0;
